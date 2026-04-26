@@ -1,0 +1,50 @@
+import {
+    obtenerUsuarioPorIdService,
+    obtenerUsuariosService,
+    actualizarUsuarioService,
+    actualizarPlanUsuarioService,
+    eliminarUsuarioService
+} from "../services/usuario.service.js";
+import UsuarioDesafios from "../models/usuarioDesafios.model.js";
+import UsuarioProductos from "../models/usuarioProductos.model.js";
+
+
+export const obtenerUsuarios = async (req, res) => {
+    const usuariosObtenidos = await obtenerUsuariosService();
+
+    const usuariosFiltrados = await Promise.all(usuariosObtenidos.map(async (usuario) => {
+        if (usuario.rol === "admin") {
+            return { id: usuario._id, username: usuario.username, rol: usuario.rol };
+        }
+        const productos = await UsuarioProductos.find({ idUsuario: usuario._id }).populate("idProducto", "nombreProducto puntosRequeridos beneficio");
+        const desafios = await UsuarioDesafios.find({ idUsuario: usuario._id }).populate("idDesafio", "nombreDesafio descripcion puntosRecompensa");
+        return { ...usuario.toObject(), productos, desafios };
+    }));
+
+
+    res.json({ message: "Usuarios obtenidos", usuarios: usuariosFiltrados });
+};
+
+export const obtenerUsuarioPorId = async (req, res) => {
+    const { id } = req.params;
+    const usuarioObtenido = await obtenerUsuarioPorIdService(id);
+    res.json({ message: `Usuario ${usuarioObtenido.id} obtenido con exito`, usuario: usuarioObtenido });
+}
+
+export const actualizarUsuario = async (req, res) => {
+    const { id } = req.params;
+    const usuarioActualizado = await actualizarUsuarioService(id, req.body);
+    res.json({ message: `Usuario ${usuarioActualizado.id} actualizado exitosamente`, ...usuarioActualizado });
+}
+
+export const actualizarPlanUsuario = async (req, res) => {
+    const { id } = req.params;
+    const usuarioPlanActualizado = await actualizarPlanUsuarioService(id);
+    res.json({ message: `Plan actualizado exitosamente`, usuario: usuarioPlanActualizado });
+}
+
+export const eliminarUsuario = async (req, res) => {
+    const { id } = req.params;
+    const usuarioEliminado = await eliminarUsuarioService(id);
+    res.json({ message: `Usuario ${usuarioEliminado.id} eliminado exitosamente`, usuario: usuarioEliminado });
+}
