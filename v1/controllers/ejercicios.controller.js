@@ -1,7 +1,9 @@
+
 import {
     crearEjercicioService,
     obtenerEjercicioPorIdService,
     obtenerEjerciciosService,
+    obtenerEjerciciosPorCategoriaService,
     actualizarEjercicioService,
     eliminarEjercicioService
 } from "../services/ejercicio.services.js";
@@ -12,7 +14,13 @@ export const crearEjercicio = async (req, res) => {
 }
 
 export const obtenerEjercicios = async (req, res) => {
-    const ejerciciosObtenidos = await obtenerEjerciciosService();
+    const { page, limit, categoriaMusculo } = req.query;
+
+    if(categoriaMusculo) {
+        const ejerciciosPorCategoriaObtenidos = await obtenerEjerciciosPorCategoriaService(categoriaMusculo);
+        return res.json({ message: "Ejercicios obtenidos por categoría", ejercicios: ejerciciosPorCategoriaObtenidos });
+    }
+    const ejerciciosObtenidos = await obtenerEjerciciosService(page, limit);
     res.json({ message: "Ejercicios obtenidos", ejercicios: ejerciciosObtenidos });
 }
 

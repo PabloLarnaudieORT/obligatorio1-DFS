@@ -12,8 +12,9 @@ export const crearProducto = async (req, res) => {
 }
 
 export const obtenerProductos = async (req, res) => {
-    const productosObtenidos = await obtenerProductosService();
-    res.json({ message: "Productos obtenidos", productos: productosObtenidos });
+    const {page, limit} = req.query;
+    const productosObtenidos = await obtenerProductosService(page, limit);
+    res.json({ message: "Productos obtenidos", ...productosObtenidos });
 }
 
 export const obtenerProductoPorId = async (req, res) => {

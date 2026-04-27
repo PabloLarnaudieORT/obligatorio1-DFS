@@ -3,10 +3,22 @@ import UsuarioDesafios from "../models/usuarioDesafios.model.js";
 import UsuarioProductos from "../models/usuarioProductos.model.js";
 import { isValidObjectId } from "mongoose";
 
-export const obtenerUsuariosService = async () => {
-    const usuarios = await Usuario.find().select("-password");
-    return usuarios;
-}
+export const obtenerUsuariosService = async (page, limit) => {
+    limit = Number(limit) || 5; // Valor predeterminado de 5 si no se proporciona
+    page = Number(page) || 1;
+    const skip = (page - 1) * limit;
+
+    const cantidadUsuarios = await Usuario.countDocuments();
+    const totalPages = Math.ceil(cantidadUsuarios / limit);
+
+    const usuarios = await Usuario.find().select("-password").skip(skip).limit(limit);
+    return {
+        total: cantidadUsuarios,
+        totalPages,
+        currentPage: page,
+        usuarios
+    };
+};
 
 export const obtenerUsuarioPorIdService = async (id) => {
     const usuario = await Usuario.findById(id).select("-password");

@@ -12,4 +12,4 @@ const categoriaMusculosSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.model("Categoria Músculos", categoriaMusculosSchema);
+export default mongoose.model("CategoriaMusculo", categoriaMusculosSchema);

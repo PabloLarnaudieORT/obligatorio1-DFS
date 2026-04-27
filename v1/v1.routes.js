@@ -14,12 +14,15 @@ import usuarioProductosRouter from "./routes/usuarioProductos.routes.js";
 import rutinaEjercicioRouter from "./routes/rutinaEjercicio.router.js";
 import wgerApiRouter from "./routes/wgerApi.routes.js";
 import aiRouter from "./routes/ai.routes.js";
+import uploadsRouter from "./routes/uploads.routes.js";
 
 const router = express.Router({ mergeParams: true });
 
 //rutas desprotegidas
 router.use("/auth", authRouter);
 router.use("/ai-consultas", aiRouter);
+router.use("/uploads", uploadsRouter);
+
 router.use(authenticateToken);
 
 //rutas protegidas

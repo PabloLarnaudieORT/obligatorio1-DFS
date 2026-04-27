@@ -2,13 +2,23 @@
 import {
     createRutinaService,
     obtenerRutinasCompletasService,
+    obtenerRutinasPorZonaService,
     obtenerRutinaCompletaPorIdService,
     actualizarRutinaService,
     eliminarRutinaService,
 } from "../services/rutina.service.js";
 
 export const obtenerRutinasCompletas = async (req, res) => {
-    const {page, limit} = req.query;
+    const {page, limit, zona} = req.query;
+
+    if (zona) {
+        const rutinasPorZona = await obtenerRutinasPorZonaService(zona);
+        return res.json({ 
+            message: "Rutinas filtradas por zona muscular", 
+            rutinas: rutinasPorZona 
+        });
+    }
+
     const rutinasObtenidas = await obtenerRutinasCompletasService(page, limit);
     res.json({ message: "Rutinas obtenidas", rutinas: rutinasObtenidas });
 }

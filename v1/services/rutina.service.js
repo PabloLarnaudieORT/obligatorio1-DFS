@@ -35,7 +35,7 @@ export const createRutinaService = async (rutina, usuarioId) => {
 }
 
 export const obtenerRutinasCompletasService = async (page, limit) => {
-    limit = Number(limit) || 10; // Valor predeterminado de 10 si no se proporciona
+    limit = Number(limit) || 5; // Valor predeterminado de 5 si no se proporciona
     page = Number(page) || 1;
     const skip = (page - 1) * limit;
 
@@ -54,7 +54,37 @@ export const obtenerRutinasCompletasService = async (page, limit) => {
         })
     );
 
-    return resultado;
+    return {
+    totalDeRutinas: cantidadRutinas,
+    totalPages,
+    currentPage: page,
+    rutinas: resultado
+};
+};
+
+export const obtenerRutinasPorZonaService = async (zonaId) => {
+    try {
+        
+        const rutinas = await Rutina.find({ categoriaZonaMuscular: zonaId })
+            .populate("idUsuarioCreador", "username plan")
+            .populate("categoriaZonaMuscular", "nombreCategoriaZona");
+
+        
+        const resultado = await Promise.all(
+            rutinas.map(async (rutina) => {
+                const ejercicios = await RutinaEjercicio.find({ idRutina: rutina._id })
+                    .populate("idEjercicio");
+                return {
+                    ...rutina.toObject(),
+                    ejercicios
+                };
+            })
+        );
+
+        return resultado;
+    } catch (error) {
+        throw new Error("Error al obtener las rutinas por zona muscular");
+    }
 };
 
 export const obtenerRutinaCompletaPorIdService = async (id) => {
@@ -64,7 +94,7 @@ export const obtenerRutinaCompletaPorIdService = async (id) => {
         throw errorId;
     }
 
-    const rutina = await Rutina.findById(id).populate("categoriaZonaMuscular", "nombreCategoriaZona").populate("idUsuario", "username plan").populate("categoriaZonaMuscular", "_id nombreCategoriaZona").populate("listaEjercicios");
+    const rutina = await Rutina.findById(id).populate("idUsuarioCreador", "username plan").populate("categoriaZonaMuscular", "_id nombreCategoriaZona").populate("listaEjercicios");
 
     if (!rutina) {
         const errorId = new Error("Rutina no encontrada");

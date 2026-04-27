@@ -10,9 +10,10 @@ import UsuarioProductos from "../models/usuarioProductos.model.js";
 
 
 export const obtenerUsuarios = async (req, res) => {
-    const usuariosObtenidos = await obtenerUsuariosService();
+    const { page, limit } = req.query;
+    const usuariosObtenidos = await obtenerUsuariosService(page, limit);
 
-    const usuariosFiltrados = await Promise.all(usuariosObtenidos.map(async (usuario) => {
+    const usuariosFiltrados = await Promise.all(usuariosObtenidos.usuarios.map(async (usuario) => {
         if (usuario.rol === "admin") {
             return { id: usuario._id, username: usuario.username, rol: usuario.rol };
         }
@@ -22,7 +23,11 @@ export const obtenerUsuarios = async (req, res) => {
     }));
 
 
-    res.json({ message: "Usuarios obtenidos", usuarios: usuariosFiltrados });
+    res.json({ message: "Usuarios obtenidos",
+    total: usuariosObtenidos.total,
+    totalPages: usuariosObtenidos.totalPages,
+    currentPage: usuariosObtenidos.currentPage,
+    usuarios: usuariosFiltrados});
 };
 
 export const obtenerUsuarioPorId = async (req, res) => {

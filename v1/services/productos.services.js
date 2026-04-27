@@ -13,10 +13,17 @@ export const crearProductoService = async (producto) => {
         throw err;
     }   
 }
-export const obtenerProductosService = async () => {
+export const obtenerProductosService = async (page, limit) => {
     try {
-        const productos = await Producto.find();
-        return productos;
+        limit = Number(limit) || 5; // Valor predeterminado de 5 si no se proporciona
+        page = Number(page) || 1;
+        const skip = (page - 1) * limit;
+        const cantidadProductos = await Producto.countDocuments();
+        const totalPages = Math.ceil(cantidadProductos / limit);
+        
+        const productos = await Producto.find().skip(skip).limit(limit);
+       
+        return {  totalProductos: cantidadProductos, totalPages, currentPage: page , productos,};
     } catch (error) {
         throw new Error("Error al obtener los productos");
     }       

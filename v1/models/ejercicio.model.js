@@ -28,7 +28,7 @@ const ejercicioSchema = new mongoose.Schema({
     },
     categoriaMusculo: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Categoria Musculo",
+        ref: "CategoriaMusculo",
         required: true
     },
     idUsuarioCreador: {

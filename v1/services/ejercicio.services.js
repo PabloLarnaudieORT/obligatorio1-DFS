@@ -14,15 +14,36 @@ export const crearEjercicioService = async (ejercicio) => {
     }
 }
 
-export const obtenerEjerciciosService = async () => {
+export const obtenerEjerciciosService = async (page, limit) => {
     try {
-        const ejercicios = await Ejercicio.find();
-        return ejercicios;
+        limit = Number(limit) || 5; // Valor predeterminado de 5 si no se proporciona
+        page = Number(page) || 1;
+        const skip = (page - 1) * limit;
+        const cantidadEjercicios = await Ejercicio.countDocuments();
+        const totalPages = Math.ceil(cantidadEjercicios / limit);
+        const ejercicios = await Ejercicio.find().skip(skip).limit(limit).populate("categoriaMusculo");
+        return {
+            total: cantidadEjercicios,
+            totalPages,
+            currentPage: page,
+            ejercicios
+        };
+
     } catch (error) {
+        console.error("EL ERROR REAL ES:", error); 
         throw new Error("Error al obtener los ejercicios");
     }
+};
 
-}
+// Servicio con filtro por Categoría
+export const obtenerEjerciciosPorCategoriaService = async (categoriaId) => {
+    try {
+        return await Ejercicio.find({ categoriaMusculo: categoriaId }).populate("categoriaMusculo");
+    } catch (error) {
+        throw new Error("Error al obtener los ejercicios por categoría");
+    }
+};
+
 
 export const obtenerEjercicioPorIdService = async (id) => {
     if (!isValidObjectId(id)) {
