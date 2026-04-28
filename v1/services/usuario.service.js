@@ -12,11 +12,21 @@ export const obtenerUsuariosService = async (page, limit) => {
     const totalPages = Math.ceil(cantidadUsuarios / limit);
 
     const usuarios = await Usuario.find().select("-password").skip(skip).limit(limit);
+
+    const usuariosFiltrados = await Promise.all(usuarios.map(async (usuario) => {
+        if (usuario.rol === "admin") {
+            return { id: usuario._id, username: usuario.username, rol: usuario.rol };
+        }
+        const productos = await UsuarioProductos.find({ idUsuario: usuario._id }).populate("idProducto", "nombreProducto puntosRequeridos beneficio");
+        const desafios = await UsuarioDesafios.find({ idUsuario: usuario._id }).populate("idDesafio", "nombreDesafio descripcion puntosRecompensa");
+        return { ...usuario.toObject(), productos, desafios };
+    }));
+
     return {
         total: cantidadUsuarios,
         totalPages,
         currentPage: page,
-        usuarios
+        usuarios: usuariosFiltrados
     };
 };
 
@@ -32,7 +42,7 @@ export const actualizarUsuarioService = async (id, data) => {
 
 export const actualizarPlanUsuarioService = async (id) => {
     const usuario = await Usuario.findById(id);
-    if(!usuario) {
+    if (!usuario) {
         const error = new Error("Usuario no encontrado");
         error.status = 404;
         throw error;
@@ -44,7 +54,7 @@ export const actualizarPlanUsuarioService = async (id) => {
         throw error;
     }
 
-    if(usuario.plan !== "plus") {
+    if (usuario.plan !== "plus") {
         const error = new Error("Solo los usuarios con plan 'plus' pueden actualizar a 'premium'");
         error.status = 400;
         throw error;

@@ -13,21 +13,13 @@ export const obtenerUsuarios = async (req, res) => {
     const { page, limit } = req.query;
     const usuariosObtenidos = await obtenerUsuariosService(page, limit);
 
-    const usuariosFiltrados = await Promise.all(usuariosObtenidos.usuarios.map(async (usuario) => {
-        if (usuario.rol === "admin") {
-            return { id: usuario._id, username: usuario.username, rol: usuario.rol };
-        }
-        const productos = await UsuarioProductos.find({ idUsuario: usuario._id }).populate("idProducto", "nombreProducto puntosRequeridos beneficio");
-        const desafios = await UsuarioDesafios.find({ idUsuario: usuario._id }).populate("idDesafio", "nombreDesafio descripcion puntosRecompensa");
-        return { ...usuario.toObject(), productos, desafios };
-    }));
-
-
-    res.json({ message: "Usuarios obtenidos",
-    total: usuariosObtenidos.total,
-    totalPages: usuariosObtenidos.totalPages,
-    currentPage: usuariosObtenidos.currentPage,
-    usuarios: usuariosFiltrados});
+    res.json({
+        message: "Usuarios obtenidos",
+        total: usuariosObtenidos.total,
+        totalPages: usuariosObtenidos.totalPages,
+        currentPage: usuariosObtenidos.currentPage,
+        usuarios: usuariosObtenidos.usuarios
+    });
 };
 
 export const obtenerUsuarioPorId = async (req, res) => {
