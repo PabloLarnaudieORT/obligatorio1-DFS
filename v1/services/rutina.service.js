@@ -34,14 +34,21 @@ export const createRutinaService = async (rutina, usuarioId) => {
     }
 }
 
-export const obtenerRutinasCompletasService = async (page, limit) => {
-    limit = Number(limit) || 5; // Valor predeterminado de 5 si no se proporciona
+export const obtenerRutinasCompletasService = async (page, limit, userId = null) => {
+    limit = Number(limit) || 5;
     page = Number(page) || 1;
     const skip = (page - 1) * limit;
 
-    const cantidadRutinas = await Rutina.countDocuments();
+    let query = {};
+    // Si se pasa un userId, filtrar por creador (para usuarios normales)
+    // Si no se pasa userId, traer todos (para admin)
+    if (userId) {
+        query = { idUsuarioCreador: userId };
+    }
+
+    const cantidadRutinas = await Rutina.countDocuments(query);
     const totalPages = Math.ceil(cantidadRutinas / limit);
-    const rutinas = await Rutina.find().skip(skip).limit(limit).populate("idUsuarioCreador", "username plan").populate("categoriaZonaMuscular", "_id nombreCategoriaZona");
+    const rutinas = await Rutina.find(query).skip(skip).limit(limit).populate("idUsuarioCreador", "username plan").populate("categoriaZonaMuscular", "_id nombreCategoriaZona");
 
     const resultado = await Promise.all(
         rutinas.map(async (rutina) => {

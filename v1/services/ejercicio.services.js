@@ -14,14 +14,23 @@ export const crearEjercicioService = async (ejercicio) => {
     }
 }
 
-export const obtenerEjerciciosService = async (page, limit) => {
+export const obtenerEjerciciosService = async (page, limit, userId = null) => {
     try {
-        limit = Number(limit) || 5; // Valor predeterminado de 5 si no se proporciona
+        limit = Number(limit) || 5;
         page = Number(page) || 1;
         const skip = (page - 1) * limit;
-        const cantidadEjercicios = await Ejercicio.countDocuments();
+        
+        let query = {};
+        // Si se pasa un userId, filtrar por creador (para usuarios normales)
+        // Si no se pasa userId, traer todos (para admin)
+        if (userId) {
+            query = { idUsuarioCreador: userId };
+        }
+        
+        const ejercicios = await Ejercicio.find(query).skip(skip).limit(limit).populate("categoriaMusculo");
+        const cantidadEjercicios = await Ejercicio.countDocuments(query);
         const totalPages = Math.ceil(cantidadEjercicios / limit);
-        const ejercicios = await Ejercicio.find().skip(skip).limit(limit).populate("categoriaMusculo");
+        
         return {
             total: cantidadEjercicios,
             totalPages,
@@ -30,7 +39,7 @@ export const obtenerEjerciciosService = async (page, limit) => {
         };
 
     } catch (error) {
-        console.error("EL ERROR REAL ES:", error); 
+        console.error("EL ERROR REAL ES:", error);
         throw new Error("Error al obtener los ejercicios");
     }
 };

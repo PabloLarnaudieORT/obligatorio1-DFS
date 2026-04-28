@@ -15,12 +15,22 @@ export const crearEjercicio = async (req, res) => {
 
 export const obtenerEjercicios = async (req, res) => {
     const { page, limit, categoriaMusculo } = req.query;
+    
+    // Obtener el userId y rol del token
+    const userId = req.user?.id;
+    const userRol = req.user?.rol;
 
     if(categoriaMusculo) {
         const ejerciciosPorCategoriaObtenidos = await obtenerEjerciciosPorCategoriaService(categoriaMusculo);
         return res.json({ message: "Ejercicios obtenidos por categoría", ejercicios: ejerciciosPorCategoriaObtenidos });
     }
-    const ejerciciosObtenidos = await obtenerEjerciciosService(page, limit);
+    
+    // Si es admin, pasar null para traer todos los ejercicios
+    // Si es user, pasar el userId para traer solo los del usuario
+    const userIdFilter = userRol === 'admin' ? null : userId;
+    
+    const ejerciciosObtenidos = await obtenerEjerciciosService(page, limit, userIdFilter);
+    
     res.json({ message: "Ejercicios obtenidos", ejercicios: ejerciciosObtenidos });
 }
 

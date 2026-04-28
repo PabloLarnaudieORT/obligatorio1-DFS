@@ -11,6 +11,10 @@ import {
 export const obtenerRutinasCompletas = async (req, res) => {
     const {page, limit, zona} = req.query;
 
+    // Obtener el userId y rol del token
+    const userId = req.user?.id;
+    const userRol = req.user?.rol;
+
     if (zona) {
         const rutinasPorZona = await obtenerRutinasPorZonaService(zona);
         return res.json({ 
@@ -19,7 +23,11 @@ export const obtenerRutinasCompletas = async (req, res) => {
         });
     }
 
-    const rutinasObtenidas = await obtenerRutinasCompletasService(page, limit);
+    // Si es admin, pasar null para traer todas las rutinas
+    // Si es user, pasar el userId para traer solo las del usuario
+    const userIdFilter = userRol === 'admin' ? null : userId;
+
+    const rutinasObtenidas = await obtenerRutinasCompletasService(page, limit, userIdFilter);
     res.json({ message: "Rutinas obtenidas", rutinas: rutinasObtenidas });
 }
 

@@ -27,7 +27,8 @@ export const registrarUsuarioService = async (data) => {
     }
 
     await nuevoUsuario.save();
-    const token = jwt.sign({ id: nuevoUsuario._id }, process.env.SECRET_KEY, { expiresIn: "1d" });
+    // OWASP: Incluir rol en el token para verificación de permisos
+    const token = jwt.sign({ id: nuevoUsuario._id, rol: nuevoUsuario.rol }, process.env.SECRET_KEY, { expiresIn: "1d" });
     return { token };
 }
 
@@ -35,10 +36,12 @@ export const registrarUsuarioService = async (data) => {
 export const loginUsuarioService = async (username, password) => {
     const usuario = await Usuario.findOne({ username: new RegExp(`^${username}$`, 'i') });
     if (!usuario) return { message: "Credenciales inválidas" };
+
     const isMatch = bcrypt.compareSync(password, usuario.password);
     if (!isMatch) return { message: "Credenciales inválidas" };
-    const token = jwt.sign({ id: usuario._id }, process.env.SECRET_KEY, { expiresIn: "1d" });
-    //return { token };
-    //remover mas tarde:
+    
+    const payload = { id: usuario._id, rol: usuario.rol };
+    
+    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1d" });
     return { token };
 }

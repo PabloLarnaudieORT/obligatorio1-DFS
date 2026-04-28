@@ -1,5 +1,5 @@
 import express from 'express';
-import {authenticateToken} from './middlewares/authenticate.middleware.js';
+import { authenticateToken } from './middlewares/authenticate.middleware.js';
 import authRouter from "./routes/auth.routes.js";
 import ejercicioRouter from "./routes/ejercicios.routes.js";
 import usuariosRouter from "./routes/usuarios.routes.js";
@@ -7,7 +7,7 @@ import desafiosRouter from "./routes/desafios.routes.js";
 import categoriaZonaMuscularRouter from "./routes/categoriaZonaMuscular.routes.js";
 import rutinasRouter from "./routes/rutinas.routes.js";
 import productosRouter from "./routes/productos.routes.js";
-import categoriaMusculosRoutes from "./routes/cateogiraMusculos.routes.js";
+import categoriaMusculosRoutes from "./routes/categoriaMusculos.routes.js";
 import desafioEjercicioRouter from "./routes/desafioEjercicio.routes.js";
 import usuarioDesafiosRouter from "./routes/usuarioDesafios.routes.js";
 import usuarioProductosRouter from "./routes/usuarioProductos.routes.js";
@@ -15,6 +15,7 @@ import rutinaEjercicioRouter from "./routes/rutinaEjercicio.router.js";
 import wgerApiRouter from "./routes/wgerApi.routes.js";
 import aiRouter from "./routes/ai.routes.js";
 import uploadsRouter from "./routes/uploads.routes.js";
+import authorize from "./middlewares/rol.middleware.js";
 
 const router = express.Router({ mergeParams: true });
 
@@ -27,21 +28,23 @@ router.use(authenticateToken);
 
 //rutas protegidas
 router.use("/ejercicios", ejercicioRouter);
-router.use("/usuarios", usuariosRouter);
-router.use("/desafios", desafiosRouter);
-router.use("/categoriasZonaMuscular", categoriaZonaMuscularRouter);
-router.use("/rutinas", rutinasRouter);
-router.use("/productos", productosRouter);
-router.use("/categoriasMusculos", categoriaMusculosRoutes);
 
-router.use("/desafio-ejercicios", desafioEjercicioRouter);
-router.use("/usuario-desafios", usuarioDesafiosRouter);
-router.use("/usuario-productos", usuarioProductosRouter);
-router.use("/rutina-ejercicios", rutinaEjercicioRouter);
-router.use("/wger-api", wgerApiRouter);
+router.use("/categoriasZonaMuscular", authorize(["user"]), categoriaZonaMuscularRouter);
+router.use("/rutinas", authorize(["user"]), rutinasRouter);
+router.use("/categoriasMusculos", authorize(["user"]), categoriaMusculosRoutes);
+router.use("/usuario-desafios", authorize(["user"]), usuarioDesafiosRouter);
+router.use("/usuario-productos", authorize(["user"]), usuarioProductosRouter);
+router.use("/rutina-ejercicios", authorize(["user"]), rutinaEjercicioRouter);
+router.use("/wger-api", authorize(["user"]), wgerApiRouter);
+
+router.use("/usuarios", authorize(["admin"]), usuariosRouter);
+router.use("/productos", authorize(["admin"]), productosRouter);
+router.use("/desafios", authorize(["admin","user"]), desafiosRouter);
+router.use("/desafio-ejercicios", authorize(["admin"]), desafioEjercicioRouter);
 
 
-export default router; 
+
+export default router;
 
 //DONE
 //login
