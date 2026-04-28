@@ -7,7 +7,6 @@ export const registrarUsuarioService = async (data) => {
     const passwordHash = bcrypt.hashSync(data.password, parseInt(process.env.ROUNDS) || 10);
 
     let rolFinal = "user";
-
     if (data.rol === "admin") {
         if (data.codigoAdmin !== process.env.ADMIN_CODE) {
             const error = new Error("Código de administrador inválido");

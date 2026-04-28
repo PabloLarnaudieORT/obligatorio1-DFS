@@ -1,0 +1,2975 @@
+{
+  "info": {
+    "_postman_id": "de046e65-96dc-4bda-82e3-8808cc87294e",
+    "name": "Obligatorio1",
+    "description": "# Obligatorio1\n\nEsta colección agrupa todos los endpoints de la API REST del proyecto **Obligatorio1**, una plataforma de gestión de rutinas de ejercicio, desafíos, usuarios y productos. La API utiliza autenticación mediante **Bearer Token** (`{{token}}`), que debe obtenerse previamente a través del endpoint de Login.\n\n## Base URL\n\nTodos los endpoints utilizan la variable de entorno `{{baseURL}}` como base de la URL.\n\n---\n\n## Módulos disponibles\n\n### 🔐 Autenticación\n\n- **Registro** (`POST /v1/auth/register`): Crea una nueva cuenta de usuario.\n    \n- **Login** (`POST /v1/auth/login`): Autentica al usuario y devuelve el token de acceso.\n    \n\n### 👤 Usuarios\n\nGestión completa de usuarios: obtener listado, obtener por ID, actualizar y eliminar.\n\n### 🏋️ Ejercicios\n\nCRUD completo de ejercicios disponibles en la plataforma.\n\n### 💪 Categoría Muscular\n\nGestión de categorías musculares asociadas a los ejercicios.\n\n### 🗂️ CategoriaZonaMuscular\n\nGestión de zonas musculares para clasificar ejercicios.\n\n### 📋 Rutinas\n\nCreación, actualización, obtención y eliminación de rutinas de entrenamiento.\n\n### 🔗 Rutina-Ejercicios\n\nAsociación de ejercicios a rutinas: crear, obtener y eliminar relaciones.\n\n### 🏆 Desafios\n\nCRUD completo de desafíos disponibles en la plataforma.\n\n### 🎯 Desafio-Ejercicios\n\nGestión de los ejercicios asociados a cada desafío.\n\n### 📌 Usuario-Desafios\n\nInscripción de usuarios a desafíos: crear, obtener, actualizar y eliminar inscripciones.\n\n### 🛒 Productos\n\nGestión del catálogo de productos disponibles.\n\n### 🧾 Usuario-Productos\n\nRelación entre usuarios y productos adquiridos o asignados.\n\n### 🤖 AI Consultas\n\nEndpoints para realizar consultas asistidas por inteligencia artificial.\n\n### 🌐 WgerApi-Ejemplo\n\nIntegración con la API externa **Wger** para obtener ejercicios, categorías y músculos de referencia.\n\n---\n\n## Autenticación\n\nLa colección usa **Bearer Token** de forma global. Asegúrate de ejecutar primero el endpoint `/login` y guardar el token en la variable `{{token}}` del entorno activo.\n\n---\n\n## Variables de entorno requeridas\n\n| Variable | Descripción |\n| --- | --- |\n| `{{baseURL}}` | URL base del servidor (ej: `http://localhost:3000`) |\n| `{{token}}` | Token JWT obtenido tras el login |\n| `{{idUsuario}}` | ID de un usuario específico |\n| `{{idRutina}}` | ID de una rutina específica |\n| `{{idRutinaEjercicio}}` | ID de una relación rutina-ejercicio |\n| `{{idDesafioEjercicio}}` | ID de un desafío-ejercicio |\n| `{{idUsuarioDesafio}}` | ID de una inscripción usuario-desafío |\n\n---\n\n_Colección generada para el proyecto académico Obligatorio1 — Universidad ORT Uruguay._",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54314657",
+    "_collection_link": "https://go.postman.co/collection/54314657-de046e65-96dc-4bda-82e3-8808cc87294e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "/register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idUsuario\", jsonData.id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const randomUsername = \"user_\" + Math.random().toString(36).substring(2, 8);",
+                  "pm.collectionVariables.set(\"randomUsername\", randomUsername);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"{{randomUsername}}\",\r\n    \"password\": \"123456789\",\r\n    \"confirmPassword\": \"123456789\",\r\n    \"rol\": \"admin\",\r\n    \"codigoAdmin\": \"GYM2026\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/auth/register",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()\r",
+                  "if (jsonData.token) {\r",
+                  "    pm.collectionVariables.set('token', jsonData.token)\r",
+                  "    pm.collectionVariables.set(\"idUsuario\", jsonData.id);\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"{{randomUsername}}\",\r\n  \"password\": \"123456789\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/auth/login",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "/obtenerUsuarios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/v1/usuarios?page=3",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerUsuarioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/usuarios/69dd86640306ed3cbcd3873f",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "69dd86640306ed3cbcd3873f"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarUsuarioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"Pablo\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/usuarios/69e7fa91f77945d5cac8f329",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "69e7fa91f77945d5cac8f329"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ejercicios",
+      "item": [
+        {
+          "name": "/crearEjercicio",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const today = new Date().toISOString().split(\"T\")[0];\r",
+                  "pm.environment.set(\"hoy\", today);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idEjercicio\", jsonData._doc._id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombreEjercicio\": \"Press Militar\",\r\n    \"fecha\": \"{{hoy}}\",\r\n    \"tipoDePeso\": \"kilogramos\",\r\n    \"peso\": 75,\r\n    \"repeticiones\": 12,\r\n    \"series\": 4,\r\n    \"categoriaMusculo\": \"69e807ed180dc2fbf6972bb2\",\r\n    \"idUsuarioCreador\": \"{{idUsuario}}\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/ejercicios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "ejercicios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerEjercicios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/v1/ejercicios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "ejercicios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerEjercicioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/ejercicios/{{idEjercicio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "ejercicios",
+                "{{idEjercicio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarEjercicioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"series\":3\r\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/ejercicios/{{idEjercicio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "ejercicios",
+                "{{idEjercicio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarEjercicioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/ejercicios/{{idEjercicio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "ejercicios",
+                "{{idEjercicio}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Desafios",
+      "item": [
+        {
+          "name": "/crearDesafio",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const today = new Date().toISOString().split(\"T\")[0];\r",
+                  "pm.environment.set(\"hoy\", today);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idDesafio\", jsonData._doc._id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombreDesafio\": \"Maquina De Guerra\",\r\n    \"fechaCreacion\": \"{{hoy}}\",\r\n    \"puntosDesafio\": 1500,\r\n    \"categoriaZonaMuscular\": \"{{idCategoriaZona}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerDesafios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerDesafioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios/{{idDesafio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios",
+                "{{idDesafio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarDesafioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fechaCreacion\" : \"2024-06-06\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios/{{idDesafio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios",
+                "{{idDesafio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarDesafioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios/{{idDesafio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios",
+                "{{idDesafio}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CategoriaZonaMuscular",
+      "item": [
+        {
+          "name": "/crearCategoriaZona",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const today = new Date().toISOString().split(\"T\")[0];\r",
+                  "pm.environment.set(\"hoy\", today);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idCategoriaZona\", jsonData._doc._id);",
+                  "",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombreCategoriaZona\": \"Zona Superior\",\r\n  \"fechaCreacion\": \"{{hoy}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasZonaMuscular",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasZonaMuscular"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerCategoriasZona",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasZonaMuscular",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasZonaMuscular"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerCategoriasZonaPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasZonaMuscular/{{idCategoriaZona}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasZonaMuscular",
+                "{{idCategoriaZona}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarCategoriaZonaMuscularPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombreCategoriaZona\" : \"Zona Media Abdominal\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasZonaMuscular/{{idCategoriaZona}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasZonaMuscular",
+                "{{idCategoriaZona}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarCategoriaZonaMuscularPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasZonaMuscular/{{idCategoriaZona}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasZonaMuscular",
+                "{{idCategoriaZona}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rutinas",
+      "item": [
+        {
+          "name": "/crearRutina",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idRutina\", jsonData._doc._id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"idUsuarioCreador\": \"{{idUsuario}}\",\r\n    \"categoriaZonaMuscular\": \"{{idCategoriaZona}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/rutinas",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutinas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerRutinas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/rutinas/",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutinas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerRutinasPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/rutinas/{{idRutina}}/completaPorId",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutinas",
+                "{{idRutina}}",
+                "completaPorId"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarRutina",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"categoriaZonaMuscular\": \"{{idCategoriaZona}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/rutinas/{{idRutina}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutinas",
+                "{{idRutina}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarRutina",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"listaEjercicios\" : [\"69e149b13c25f14f26c639ee\", \"69e158218f72e5dc70009d6c\", \"69e15e8adc406aa424b8ddde\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/rutinas/{{idRutina}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutinas",
+                "{{idRutina}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Productos",
+      "item": [
+        {
+          "name": "/obtenerProductos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/productos",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "productos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerProductosPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/productos/{{idProducto}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "productos",
+                "{{idProducto}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/crearProducto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idProducto\", jsonData._id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"puntosRequeridos\": 900,\r\n    \"nombreProducto\": \"Coca\",\r\n    \"beneficio\": \"Vale por un descuento de 10%\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/productos",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "productos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarProductoPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idProducto\", jsonData._doc._id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"beneficio\": \"Descuento de 10%%\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/productos/{{idProducto}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "productos",
+                "{{idProducto}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarProductoPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/productos/{{idProducto}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "productos",
+                "{{idProducto}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categoria Muscular",
+      "item": [
+        {
+          "name": "/categoriaMusculo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idCategoriaMusculo\", jsonData._doc._id);",
+                  "",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombre\": \"Gluteos\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasMusculos",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasMusculos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/categoriasMusculos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasMusculos",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasMusculos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/categoriasMusculosPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombre\": \"Biceps\",\r\n    \"descripcion\": \"N/A\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasMusculos/{{idCategoriaMusculo}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasMusculos",
+                "{{idCategoriaMusculo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarMusculosPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombre\": \"Gemelos\",\r\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasMusculos/{{idCategoriaMusculo}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasMusculos",
+                "{{idCategoriaMusculo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarMusculosPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/categoriasMusculos/{{idCategoriaMusculo}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "categoriasMusculos",
+                "{{idCategoriaMusculo}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rutina-Ejercicios",
+      "item": [
+        {
+          "name": "/crearRutinaEjercicio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idRutinaEjercicio\", jsonData._doc._id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"idRutina\": \"{{idRutina}}\",\r\n    \"idEjercicio\":\"{{idEjercicio}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/rutina-ejercicios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutina-ejercicios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerRutinasEjercicio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "})",
+                  "",
+                  "pm.test('Response is array or has array property', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    var isArray = Array.isArray(jsonData);",
+                  "    var hasArrayProp = typeof jsonData === 'object' && jsonData !== null && Object.values(jsonData).some(function (v) {",
+                  "        return Array.isArray(v);",
+                  "    });",
+                  "    pm.expect(isArray || hasArrayProp).to.be.true;",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/rutina-ejercicios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutina-ejercicios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarRutinaEjercicioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200 or 204', function () {",
+                  "    pm.expect([",
+                  "        200,",
+                  "        204",
+                  "    ]).to.include(pm.response.code);",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/rutina-ejercicios/{{idRutinaEjercicio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "rutina-ejercicios",
+                "{{idRutinaEjercicio}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuario-Desafios",
+      "item": [
+        {
+          "name": "/crearUsuarioDesafio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const jsonData = pm.response.json()\r",
+                  "pm.collectionVariables.set(\"idUsuarioDesafio\", jsonData._doc._id);",
+                  "",
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "})",
+                  "",
+                  "pm.test('Response has body', function () {",
+                  "    pm.response.to.have.body();",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const today = new Date().toISOString().split(\"T\")[0];\r",
+                  "pm.environment.set(\"hoy\", today);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"idUsuario\": \"{{idUsuario}}\",\r\n    \"idDesafio\": \"{{idDesafio}}\",\r\n    \"estado\": \"en curso\",\r\n    \"fechaInicio\": \"{{hoy}}\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-desafios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-desafios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerUsuarioDesafio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "})",
+                  "",
+                  "pm.test('Response is array or has array property', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(Array.isArray(json) || Object.values(json).some(v => Array.isArray(v))).to.be.true;",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-desafios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-desafios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarUsuarioDesafioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "})",
+                  "",
+                  "pm.test('Response has body', function () {",
+                  "    pm.response.to.have.body();",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"estado\":\"finalizado\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-desafios/{{idUsuarioDesafio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-desafios",
+                "{{idUsuarioDesafio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarUsuarioEjercicioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200 or 204', function () {",
+                  "    pm.expect([",
+                  "        200,",
+                  "        204",
+                  "    ]).to.include(pm.response.code);",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-desafios/{{idUsuarioDesafio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-desafios",
+                "{{idUsuarioDesafio}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuario-Productos",
+      "item": [
+        {
+          "name": "/crearUsuarioProducto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const jsonData = pm.response.json()\r",
+                  "pm.collectionVariables.set(\"idUsuarioProductos\", jsonData._doc._id);",
+                  "",
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "})",
+                  "",
+                  "pm.test('Response has body', function () {",
+                  "    pm.response.to.have.body();",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const today = new Date().toISOString().split(\"T\")[0];\r",
+                  "pm.environment.set(\"hoy\", today);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"idUsuario\": \"{{idUsuario}}\",\r\n    \"idProducto\": \"{{idProducto}}\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-productos",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-productos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerUsuarioProducto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "})",
+                  "",
+                  "pm.test('Response is array or has array property', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(Array.isArray(json) || Object.values(json).some(v => Array.isArray(v))).to.be.true;",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-productos",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-productos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarUsuarioProductoPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "})",
+                  "",
+                  "pm.test('Response has body', function () {",
+                  "    pm.response.to.have.body();",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"estado\":\"finalizado\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-productos/{{idUsuarioProductos}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-productos",
+                "{{idUsuarioProductos}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarUsuarioProductoPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200 or 204', function () {",
+                  "    pm.expect([",
+                  "        200,",
+                  "        204",
+                  "    ]).to.include(pm.response.code);",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/usuario-productos/{{idUsuarioProductos}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "usuario-productos",
+                "{{idUsuarioProductos}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Desafio-Ejercicios",
+      "item": [
+        {
+          "name": "/crearInscripcionDesafio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json()",
+                  "pm.collectionVariables.set(\"idDesafioEjercicio\", jsonData._doc._id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const today = new Date().toISOString().split(\"T\")[0];\r",
+                  "pm.environment.set(\"hoy\", today);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"idDesafio\": \"{{idDesafio}}\",\r\n    \"idEjercicios\": \"{{idEjercicio}}\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios-ejercicio",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios-ejercicio"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerInscripcionDesafio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios-ejercicio",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios-ejercicio"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actualizarInscripcionDesafioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"estado\":\"finalizado\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/desafios-ejercicio/{{idDesafioEjercicio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "desafios-ejercicio",
+                "{{idDesafioEjercicio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/eliminarRutinaEjercicioPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/inscripciones-desafio/{{idDesafioEjercicio}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "inscripciones-desafio",
+                "{{idDesafioEjercicio}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "WgerApi-Ejemplo",
+      "item": [
+        {
+          "name": "/obtenerEjercicioWgerPorId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/wger-api/ejercicios/51",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "wger-api",
+                "ejercicios",
+                "51"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerWgerEjercicio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/wger-api/ejercicios",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "wger-api",
+                "ejercicios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/obtenerMusculosWger",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/wger-api/musculos",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "wger-api",
+                "musculos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "})",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "})",
+                  "",
+                  "pm.test('Response is array or has array property', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(Array.isArray(json) || Object.values(json).some(v => Array.isArray(v))).to.be.true;",
+                  "})",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/wger-api/categorias",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "wger-api",
+                "categorias"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AI Consultas",
+      "item": [
+        {
+          "name": "/getModels",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"prompt\": \"Cual es la capital de Uruguay?\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/ai-consultas",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "v1",
+                "ai-consultas"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "idUsuario",
+      "value": ""
+    },
+    {
+      "key": "idEjercicio",
+      "value": ""
+    },
+    {
+      "key": "idRutina",
+      "value": ""
+    },
+    {
+      "key": "idCategoriaZona",
+      "value": ""
+    },
+    {
+      "key": "idDesafio",
+      "value": ""
+    },
+    {
+      "key": "idProducto",
+      "value": ""
+    },
+    {
+      "key": "idCategoriaMusculo",
+      "value": ""
+    },
+    {
+      "key": "idInscripcionDesafio",
+      "value": ""
+    },
+    {
+      "key": "idDesafioEjercicio",
+      "value": ""
+    },
+    {
+      "key": "idUsuarioDesafio",
+      "value": ""
+    },
+    {
+      "key": "idUsuarioProductos",
+      "value": ""
+    },
+    {
+      "key": "randomUsername",
+      "value": ""
+    }
+  ]
+}
