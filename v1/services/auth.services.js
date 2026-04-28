@@ -40,5 +40,5 @@ export const loginUsuarioService = async (username, password) => {
     const token = jwt.sign({ id: usuario._id }, process.env.SECRET_KEY, { expiresIn: "1d" });
     //return { token };
     //remover mas tarde:
-    return { token, id: usuario._id };
+    return { token };
 }
