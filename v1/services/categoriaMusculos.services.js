@@ -1,9 +1,12 @@
 import CategoriaMusculo from "../models/categoriaMusculos.model.js";
 import { isValidObjectId } from "mongoose";
 
-export const crearCategoriaMusculoService = async (categoriaMusculo) => {
+export const crearCategoriaMusculoService = async (categoriaMusculo, idUsuario) => {
     try {
-        const nuevaCategoriaMusculo = new CategoriaMusculo(categoriaMusculo);
+        const nuevaCategoriaMusculo = new CategoriaMusculo({
+            ...categoriaMusculo,
+            idUsuario
+        });
         await nuevaCategoriaMusculo.save();
         return nuevaCategoriaMusculo;
     }   catch (error) {
@@ -14,16 +17,17 @@ export const crearCategoriaMusculoService = async (categoriaMusculo) => {
     }   
 }
 
-export const obtenerCategoriasMusculosService = async () => {
+export const obtenerCategoriasMusculosService = async (userIdFilter) => {
     try {
-        const categoriasMusculos = await CategoriaMusculo.find();
+        const query = userIdFilter ? { idUsuario: userIdFilter } : {};
+        const categoriasMusculos = await CategoriaMusculo.find(query);
         return categoriasMusculos;
     }   catch (error) {
         throw new Error("Error al obtener las categorias musculares");
     }   
 }
 
-export const obtenerCategoriaMusculoPorIdService = async (id) => {
+export const obtenerCategoriaMusculoPorIdService = async (id, userIdFilter) => {
     if (!isValidObjectId(id)) {
         const errorId = new Error("Id no válido");
         errorId.status = 400;
@@ -31,7 +35,12 @@ export const obtenerCategoriaMusculoPorIdService = async (id) => {
         throw errorId;
     }   
 
-    const categoriaMusculo = await CategoriaMusculo.findById(id);
+    const query = { _id: id };
+    if (userIdFilter) {
+        query.idUsuario = userIdFilter;
+    }
+
+    const categoriaMusculo = await CategoriaMusculo.findOne(query);
 
     if (!categoriaMusculo) {
         const errorId = new Error("Categoria muscular no encontrada");
@@ -42,7 +51,7 @@ export const obtenerCategoriaMusculoPorIdService = async (id) => {
     return categoriaMusculo;
 }
 
-export const actualizarCategoriaMusculoService = async (id, data) => {
+export const actualizarCategoriaMusculoService = async (id, data, userIdFilter) => {
     if (!isValidObjectId(id)) {
         const errorId = new Error("Id no válido");
         errorId.status = 400;
@@ -50,7 +59,12 @@ export const actualizarCategoriaMusculoService = async (id, data) => {
         throw errorId;
     }
 
-    const categoriaMusculo = await CategoriaMusculo.findById(id);
+    const query = { _id: id };
+    if (userIdFilter) {
+        query.idUsuario = userIdFilter;
+    }
+
+    const categoriaMusculo = await CategoriaMusculo.findOne(query);
 
     if (!categoriaMusculo) {
         const errorId = new Error("Categoria muscular no encontrada");
@@ -63,7 +77,7 @@ export const actualizarCategoriaMusculoService = async (id, data) => {
     return categoriaMusculoActualizada; 
 }
 
-export const eliminarCategoriaMusculoService = async (id) => {
+export const eliminarCategoriaMusculoService = async (id, userIdFilter) => {
     if (!isValidObjectId(id)) {
         const errorId = new Error("Id no válido");
         errorId.status = 400;
@@ -71,7 +85,12 @@ export const eliminarCategoriaMusculoService = async (id) => {
         throw errorId;
     }   
 
-    const categoriaMusculo = await CategoriaMusculo.findById(id);
+    const query = { _id: id };
+    if (userIdFilter) {
+        query.idUsuario = userIdFilter;
+    }
+
+    const categoriaMusculo = await CategoriaMusculo.findOne(query);
 
     if (!categoriaMusculo) {
         const errorId = new Error("Categoria muscular no encontrada");

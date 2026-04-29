@@ -6,6 +6,11 @@ const categoriaZonaMuscularSchema = new mongoose.Schema({
         required: true,
         unique: true 
     },
+    idUsuario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Usuario",
+        required: true
+    },
     fechaCreacion: {
         type: Date,
         default: Date.now

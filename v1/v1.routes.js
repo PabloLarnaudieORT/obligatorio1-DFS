@@ -37,7 +37,7 @@ router.use("/usuario-productos", authorize(["user"]), usuarioProductosRouter);
 router.use("/rutina-ejercicios", authorize(["user"]), rutinaEjercicioRouter);
 router.use("/wger-api", authorize(["user"]), wgerApiRouter);
 
-router.use("/usuarios", authorize(["admin"]), usuariosRouter);
+router.use("/usuarios", authorize(["admin","user"]), usuariosRouter);
 router.use("/productos", authorize(["admin"]), productosRouter);
 router.use("/desafios", authorize(["admin","user"]), desafiosRouter);
 router.use("/desafio-ejercicios", authorize(["admin"]), desafioEjercicioRouter);

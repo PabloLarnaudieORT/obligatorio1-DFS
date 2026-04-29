@@ -14,8 +14,7 @@ export const createRutinaService = async (rutina, usuarioId) => {
         }
 
         if (usuario.plan === "plus") {
-            const cantidadRutinas = await Rutina.countDocuments({ idUsuario: usuarioId });
-
+            const cantidadRutinas = await Rutina.countDocuments({ idUsuarioCreador: usuarioId });
             if (cantidadRutinas >= 4) {
                 const error = new Error("'¡Límite alcanzado! Los usuarios PLUS solo pueden crear hasta 4 rutinas.'");
                 error.status = 403;
@@ -62,21 +61,21 @@ export const obtenerRutinasCompletasService = async (page, limit, userId = null)
     );
 
     return {
-    totalDeRutinas: cantidadRutinas,
-    totalPages,
-    currentPage: page,
-    rutinas: resultado
-};
+        totalDeRutinas: cantidadRutinas,
+        totalPages,
+        currentPage: page,
+        rutinas: resultado
+    };
 };
 
 export const obtenerRutinasPorZonaService = async (zonaId) => {
     try {
-        
+
         const rutinas = await Rutina.find({ categoriaZonaMuscular: zonaId })
             .populate("idUsuarioCreador", "username plan")
             .populate("categoriaZonaMuscular", "nombreCategoriaZona");
 
-        
+
         const resultado = await Promise.all(
             rutinas.map(async (rutina) => {
                 const ejercicios = await RutinaEjercicio.find({ idRutina: rutina._id })
