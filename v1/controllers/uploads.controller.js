@@ -4,26 +4,39 @@ import { runMulterSingle } from "../utils/multer.util.js";
 import { uploadBufferToCloudinary } from "../utils/cloudinary.util.js";
 
 export const subirImagen = async (req, res) => {
-  try {
-    await runMulterSingle(upload, "imagen", req, res); //toma la informacion del upload y la guarda en req.file
-    console.log("DESPUES MULTER:", req.file);
-    
-    if (!req.file) {
-      return res.status(400).json({ error: "No se subió ningún archivo" });
+    try {
+        await runMulterSingle(upload, "imagen", req, res);
+
+        console.log("FILE:", req.file);
+
+        if (!req.file) {
+            return res.status(400).json({ error: "No se subió ningún archivo" });
+        }
+
+        const folder = req.body?.folder || "uploads";
+
+        const result = await uploadBufferToCloudinary(
+            cloudinary,
+            req.file.buffer,
+            {
+                resource_type: "auto",
+                folder,
+            }
+        );
+
+        return res.json({
+            url: result.secure_url,
+            folder: result.folder,
+        });
+
+    } catch (error) {
+
+        console.error("ERROR COMPLETO:", error);
+
+        return res.status(500).json({
+            error: "Error al subir imagen",
+            message: error.message,
+            stack: error.stack,
+        });
     }
-
-    // Permitir especificar carpeta vía req.body.folder, por defecto 'uploads'
-    const folder = req.body?.folder || "uploads";
-
-    // Sube el buffer a Cloudinary usando la utilidad promisificada
-    const result = await uploadBufferToCloudinary(cloudinary, req.file.buffer, {
-      resource_type: "auto",
-      folder,
-    });
-
-    return res.json({ url: result.secure_url, folder: result.folder });
-  } catch (error) {
-    console.error("Error al subir imagen:", error);
-    return res.status(500).json({ error: "Error al subir imagen" });
-  }
 };
