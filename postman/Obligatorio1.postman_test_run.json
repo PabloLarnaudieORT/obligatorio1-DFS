@@ -1,0 +1,2325 @@
+{
+	"id": "d5e06d04-92df-48e4-bdb8-cd2be896adae",
+	"name": "Obligatorio1",
+	"timestamp": "2026-04-30T22:00:43.846Z",
+	"collection_id": "54314657-de046e65-96dc-4bda-82e3-8808cc87294e",
+	"folder_id": 0,
+	"environment_id": "54314657-43529e51-498e-43e4-93bb-b20ec7aebdcb",
+	"totalPass": 149,
+	"delay": 0,
+	"persist": true,
+	"status": "error",
+	"startedAt": "2026-04-30T21:59:47.418Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "fc5fdc82-04d5-4fa3-af85-a410631b1553",
+			"name": "/register",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/auth/register",
+			"time": 663,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Registro de usuario exitoso": true,
+				"Register no debe devolver token": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Registro de usuario exitoso": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Register no debe devolver token": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				663
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Registro de usuario exitoso": true,
+					"Register no debe devolver token": true
+				}
+			]
+		},
+		{
+			"id": "1152b80b-f08f-4c54-b09f-740488901fef",
+			"name": "/register2",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/auth/register",
+			"time": 686,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Registro de admin exitoso": true,
+				"Register admin no debe devolver token": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Registro de admin exitoso": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Register admin no debe devolver token": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				686
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Registro de admin exitoso": true,
+					"Register admin no debe devolver token": true
+				}
+			]
+		},
+		{
+			"id": "83646d36-a310-4c43-bdb6-a30876840c94",
+			"name": "/login",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/auth/login",
+			"time": 675,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Login usuario exitoso": true,
+				"Token usuario contiene rol user": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Login usuario exitoso": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Token usuario contiene rol user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				675
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Login usuario exitoso": true,
+					"Token usuario contiene rol user": true
+				}
+			]
+		},
+		{
+			"id": "fe8f2641-f1b9-41c0-8ae5-c284e97a70e8",
+			"name": "/login2",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/auth/login",
+			"time": 676,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Login admin exitoso": true,
+				"Token admin contiene rol admin": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Login admin exitoso": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Token admin contiene rol admin": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				676
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Login admin exitoso": true,
+					"Token admin contiene rol admin": true
+				}
+			]
+		},
+		{
+			"id": "70035685-908e-497c-b6ca-19d5c71c2c38",
+			"name": "/obtenerUsuariosConAdmin",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuarios",
+			"time": 663,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Admin obtiene listado de usuarios": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Admin obtiene listado de usuarios": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				663
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Admin obtiene listado de usuarios": true
+				}
+			]
+		},
+		{
+			"id": "dfdafea8-b9fe-4014-81cd-508dd89c8d68",
+			"name": "/obtenerUsuariosConUser",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuarios",
+			"time": 207,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code es 403": true,
+				"Usuario normal no puede obtener usuarios": true
+			},
+			"testPassFailCounts": {
+				"Status code es 403": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Usuario normal no puede obtener usuarios": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				207
+			],
+			"allTests": [
+				{
+					"Status code es 403": true,
+					"Usuario normal no puede obtener usuarios": true
+				}
+			]
+		},
+		{
+			"id": "dbb7ab23-35a8-4ef0-83e2-bf42ff4a7d31",
+			"name": "/obtenerUsuarioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuarios/69f3d0d42c54ddc73b906d15",
+			"time": 291,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Admin obtiene usuario por id": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Admin obtiene usuario por id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				291
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Admin obtiene usuario por id": true
+				}
+			]
+		},
+		{
+			"id": "b342a598-298a-4d59-999c-6186ee09fbd3",
+			"name": "/actualizarUsuarioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuarios/69f3d0d42c54ddc73b906d15",
+			"time": 305,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Admin actualiza usuario por id": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Admin actualiza usuario por id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				305
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Admin actualiza usuario por id": true
+				}
+			]
+		},
+		{
+			"id": "b62d1f96-3a5c-4bf5-98f3-d88ea41ab35f",
+			"name": "/actualizarPlanUsuarioConUser",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuarios/69f3d0d32c54ddc73b906d14/plan",
+			"time": 410,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Usuario actualiza su plan a premium": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Usuario actualiza su plan a premium": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				410
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Usuario actualiza su plan a premium": true
+				}
+			]
+		},
+		{
+			"id": "38ae9e22-b646-4efc-b7fe-c34df8ef6005",
+			"name": "/actualizarPlanUsuarioConAdmin",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuarios/69f3d0d42c54ddc73b906d15/plan",
+			"time": 183,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code es 403": true,
+				"Admin no puede actualizar plan por ruta user": true
+			},
+			"testPassFailCounts": {
+				"Status code es 403": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Admin no puede actualizar plan por ruta user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				183
+			],
+			"allTests": [
+				{
+					"Status code es 403": true,
+					"Admin no puede actualizar plan por ruta user": true
+				}
+			]
+		},
+		{
+			"id": "ed27e2cb-3e49-4659-a129-b0de2eeb25cd",
+			"name": "/crearEjercicio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/ejercicios",
+			"time": 503,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200 o 201": true,
+				"Response es JSON": true,
+				"Ejercicio creado correctamente": true,
+				"SAD: falta nombre → 400": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200 o 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Ejercicio creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: falta nombre → 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				503
+			],
+			"allTests": [
+				{
+					"Status code es 200 o 201": true,
+					"Response es JSON": true,
+					"Ejercicio creado correctamente": true,
+					"SAD: falta nombre → 400": true
+				}
+			]
+		},
+		{
+			"id": "949afc26-265d-4cda-955f-6e52b1de7487",
+			"name": "/obtenerEjercicios",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/ejercicios",
+			"time": 3653,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Response es JSON": true,
+				"Tiene estructura correcta": true,
+				"Es array de ejercicios": true,
+				"Campos mínimos": true,
+				"SAD: sin auth → 401": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Tiene estructura correcta": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Es array de ejercicios": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Campos mínimos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3653
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Response es JSON": true,
+					"Tiene estructura correcta": true,
+					"Es array de ejercicios": true,
+					"Campos mínimos": true,
+					"SAD: sin auth → 401": true
+				}
+			]
+		},
+		{
+			"id": "4a31fe51-6860-46d4-a130-0c98b41e6935",
+			"name": "/obtenerEjercicioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/ejercicios/69f3d0d92c54ddc73b906d16",
+			"time": 307,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Tiene estructura correcta": true,
+				"Tipos correctos": true,
+				"SAD: id inválido → 400 o 404": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Tiene estructura correcta": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Tipos correctos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: id inválido → 400 o 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				307
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Tiene estructura correcta": true,
+					"Tipos correctos": true,
+					"SAD: id inválido → 400 o 404": true
+				}
+			]
+		},
+		{
+			"id": "1f601ee8-a10f-40be-b376-083c90fba2c8",
+			"name": "/actualizarEjercicioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/ejercicios/69f3d0d92c54ddc73b906d16",
+			"time": 454,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Se actualizó correctamente": true,
+				"Response válida": true,
+				"SAD: sin auth → 401": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Se actualizó correctamente": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response válida": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				454
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Se actualizó correctamente": true,
+					"Response válida": true,
+					"SAD: sin auth → 401": true
+				}
+			]
+		},
+		{
+			"id": "f3161e4a-48d4-40a2-bd0a-87cca61af010",
+			"name": "/eliminarEjercicioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/ejercicios/69f3d0d92c54ddc73b906d16",
+			"time": 424,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Respuesta válida": true,
+				"SAD: sin auth → 401": true,
+				"SAD: ya no existe → 404": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respuesta válida": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: ya no existe → 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				424
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Respuesta válida": true,
+					"SAD: sin auth → 401": true,
+					"SAD: ya no existe → 404": true
+				}
+			]
+		},
+		{
+			"id": "b31f76a2-d6a8-4337-8c74-9d2c492de10d",
+			"name": "/crearDesafio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafios",
+			"time": 315,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200 o 201": true,
+				"Response es JSON": true,
+				"Campos correctos": true,
+				"SAD: sin token → 401": true,
+				"SAD: body vacío → 400": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200 o 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Campos correctos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin token → 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: body vacío → 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				315
+			],
+			"allTests": [
+				{
+					"Status code es 200 o 201": true,
+					"Response es JSON": true,
+					"Campos correctos": true,
+					"SAD: sin token → 401": true,
+					"SAD: body vacío → 400": true
+				}
+			]
+		},
+		{
+			"id": "2ab59f4b-cb86-445b-a797-b8dd32be59c7",
+			"name": "/obtenerDesafios",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafios",
+			"time": 532,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Es lista de desafios": true,
+				"Campos mínimos": true,
+				"SAD: sin auth → 401": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Es lista de desafios": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Campos mínimos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				532
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Es lista de desafios": true,
+					"Campos mínimos": true,
+					"SAD: sin auth → 401": true
+				}
+			]
+		},
+		{
+			"id": "02ba6117-5921-417c-b016-1b938e03e63f",
+			"name": "/obtenerDesafioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafios/69f3d0e1a9c7dc5c2ae3b616",
+			"time": 433,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Campos correctos": true,
+				"SAD: id inválido": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Campos correctos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: id inválido": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				433
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Campos correctos": true,
+					"SAD: id inválido": true
+				}
+			]
+		},
+		{
+			"id": "f99b86b3-57bb-462d-86d4-2e11c1ae23f7",
+			"name": "/actualizarDesafioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafios/69f3d0e1a9c7dc5c2ae3b616",
+			"time": 413,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Se actualizó": true,
+				"SAD: sin auth → 401": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Se actualizó": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				413
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Se actualizó": true,
+					"SAD: sin auth → 401": true
+				}
+			]
+		},
+		{
+			"id": "db0873cd-b694-4e62-9d07-b3fdfd08b074",
+			"name": "/eliminarDesafioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafios/69f3d0e1a9c7dc5c2ae3b616",
+			"time": 414,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"SAD: sin token → 401": true,
+				"SAD: ya no existe → 404": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin token → 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: ya no existe → 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				414
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"SAD: sin token → 401": true,
+					"SAD: ya no existe → 404": true
+				}
+			]
+		},
+		{
+			"id": "a44c8c80-9afb-4c35-9730-c9758c593f29",
+			"name": "/crearCategoriaZona",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasZonaMuscular",
+			"time": 308,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Categoría creada correctamente": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Categoría creada correctamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				308
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Categoría creada correctamente": true
+				}
+			]
+		},
+		{
+			"id": "24f6515e-25a4-4eda-8d57-4a9352f242ec",
+			"name": "/obtenerCategoriasZona",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasZonaMuscular",
+			"time": 346,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La categoría creada existe en el listado": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La categoría creada existe en el listado": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				346
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La categoría creada existe en el listado": true
+				}
+			]
+		},
+		{
+			"id": "2a9ec196-4ea8-4e49-b1b3-3d917f1b925a",
+			"name": "/obtenerCategoriasZonaPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasZonaMuscular/69f3d0e52c54ddc73b906d18",
+			"time": 299,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Obtiene categoría de zona muscular por id": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Obtiene categoría de zona muscular por id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				299
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Obtiene categoría de zona muscular por id": true
+				}
+			]
+		},
+		{
+			"id": "99ba33e9-7fb1-4ce0-9e75-0445ad35c187",
+			"name": "/actualizarCategoriaZonaMuscularPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasZonaMuscular/69f3d0e52c54ddc73b906d18",
+			"time": 409,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Actualiza categoría de zona muscular": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Actualiza categoría de zona muscular": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				409
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Actualiza categoría de zona muscular": true
+				}
+			]
+		},
+		{
+			"id": "5de8cbe4-dfc0-4ed4-9439-4a0a5394db1b",
+			"name": "/eliminarCategoriaZonaMuscularPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasZonaMuscular/69f3d0e52c54ddc73b906d18",
+			"time": 410,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Elimina categoría de zona muscular": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Elimina categoría de zona muscular": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				410
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Elimina categoría de zona muscular": true
+				}
+			]
+		},
+		{
+			"id": "4dccedb9-be57-41af-a5b6-3d21d28dec91",
+			"name": "/crearRutina",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutinas",
+			"time": 413,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200 o 201": true,
+				"Response es JSON": true,
+				"Campos correctos": true,
+				"SAD: sin auth → 401": true,
+				"SAD: body vacío → 400": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200 o 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Campos correctos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: body vacío → 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				413
+			],
+			"allTests": [
+				{
+					"Status code es 200 o 201": true,
+					"Response es JSON": true,
+					"Campos correctos": true,
+					"SAD: sin auth → 401": true,
+					"SAD: body vacío → 400": true
+				}
+			]
+		},
+		{
+			"id": "af6b4cf3-729f-4e67-b9d1-130c2877df18",
+			"name": "/obtenerRutinas",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutinas/",
+			"time": 679,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Es lista de rutinas": true,
+				"Campos mínimos": true,
+				"SAD: sin auth → 401": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Es lista de rutinas": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Campos mínimos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				679
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Es lista de rutinas": true,
+					"Campos mínimos": true,
+					"SAD: sin auth → 401": true
+				}
+			]
+		},
+		{
+			"id": "99e38e07-15e7-4c5b-ba17-df8e996c4e21",
+			"name": "/obtenerRutinasPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutinas/69f3d0e82c54ddc73b906d19/completaPorId",
+			"time": 308,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Status code es 200 o 500": true,
+				"SAD: id inválido": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200 o 500": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: id inválido": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				308
+			],
+			"allTests": [
+				{
+					"Status code es 200 o 500": true,
+					"SAD: id inválido": true
+				}
+			]
+		},
+		{
+			"id": "84987ec4-347d-4c48-9253-c6db06594a7d",
+			"name": "/actualizarRutina",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutinas/69f3d0e82c54ddc73b906d19",
+			"time": 406,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Se actualizó": true,
+				"SAD: sin auth → 401": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Se actualizó": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				406
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Se actualizó": true,
+					"SAD: sin auth → 401": true
+				}
+			]
+		},
+		{
+			"id": "3b8ef820-dfe2-4117-8184-a7418d320be4",
+			"name": "/eliminarRutina",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutinas/69f3d0e82c54ddc73b906d19",
+			"time": 417,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"SAD: ya no existe → 404": true,
+				"SAD: sin auth → 401": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: ya no existe → 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: sin auth → 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				417
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"SAD: ya no existe → 404": true,
+					"SAD: sin auth → 401": true
+				}
+			]
+		},
+		{
+			"id": "0f0341f7-92c4-4a84-aad2-39e09fd06960",
+			"name": "/crearProducto",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/productos",
+			"time": 296,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"Producto creado correctamente": true,
+				"La respuesta es JSON": true,
+				"Producto creado exitosamente": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Producto creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Producto creado exitosamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				296
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"Producto creado correctamente": true,
+					"La respuesta es JSON": true,
+					"Producto creado exitosamente": true
+				}
+			]
+		},
+		{
+			"id": "49b46000-d20b-4df4-a704-280cc89a3252",
+			"name": "/obtenerProductos",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/productos",
+			"time": 447,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Obtiene productos paginados": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Obtiene productos paginados": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				447
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Obtiene productos paginados": true
+				}
+			]
+		},
+		{
+			"id": "c52d57f5-84d8-4026-96b9-41fad5bcf29c",
+			"name": "/actualizarProductoPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/productos/69f3d0eca9c7dc5c2ae3b617",
+			"time": 412,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Producto actualizado exitosamente": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Producto actualizado exitosamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				412
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Producto actualizado exitosamente": true
+				}
+			]
+		},
+		{
+			"id": "ec48a3a6-395d-4c63-acc6-e23bff77a813",
+			"name": "/eliminarProductoPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/productos/69f3d0eca9c7dc5c2ae3b617",
+			"time": 408,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Producto eliminado exitosamente": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Producto eliminado exitosamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				408
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Producto eliminado exitosamente": true
+				}
+			]
+		},
+		{
+			"id": "1140e0e6-bea7-4e40-b9af-3bd2e3c0ab4f",
+			"name": "/categoriaMusculo",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasMusculos",
+			"time": 295,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 201": true,
+				"Response time is less than 5000ms": true,
+				"Response has _doc with required fields": true,
+				"Fields have correct types": true,
+				"Unauthenticated request returns 401": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 5000ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has _doc with required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Fields have correct types": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Unauthenticated request returns 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				295
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 201": true,
+					"Response time is less than 5000ms": true,
+					"Response has _doc with required fields": true,
+					"Fields have correct types": true,
+					"Unauthenticated request returns 401": true
+				}
+			]
+		},
+		{
+			"id": "b5238789-9c09-4ce0-9531-c3ad9cec99d8",
+			"name": "/categoriasMusculos",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasMusculos",
+			"time": 301,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Obtiene categorías musculares": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Obtiene categorías musculares": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				301
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Obtiene categorías musculares": true
+				}
+			]
+		},
+		{
+			"id": "b0944cd7-ab31-4e65-b761-3775b5d48e58",
+			"name": "/categoriasMusculosPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasMusculos/69f3d0eea9c7dc5c2ae3b618",
+			"time": 308,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Obtiene categoría muscular por id": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Obtiene categoría muscular por id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				308
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Obtiene categoría muscular por id": true
+				}
+			]
+		},
+		{
+			"id": "65f36f92-697d-4072-b0c2-b7718845b2c9",
+			"name": "/actualizarMusculosPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasMusculos/69f3d0eea9c7dc5c2ae3b618",
+			"time": 421,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Actualiza categoría muscular": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Actualiza categoría muscular": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				421
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Actualiza categoría muscular": true
+				}
+			]
+		},
+		{
+			"id": "afd889d0-10b5-4438-a7c2-25c6f0b7d7a2",
+			"name": "/eliminarMusculosPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/categoriasMusculos/69f3d0eea9c7dc5c2ae3b618",
+			"time": 413,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Elimina categoría muscular": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Elimina categoría muscular": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				413
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Elimina categoría muscular": true
+				}
+			]
+		},
+		{
+			"id": "b5ed2803-046b-4336-a6c7-c2077a23eafd",
+			"name": "/crearRutinaEjercicio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutina-ejercicios",
+			"time": 311,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				311
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d8c608c1-92dc-4db5-a915-ec0068f02bd1",
+			"name": "/obtenerRutinasEjercicio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutina-ejercicios",
+			"time": 337,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				337
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "95957e77-c9ea-47aa-82aa-26d791ab9fec",
+			"name": "/eliminarRutinaEjercicioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/rutina-ejercicios/69f3d0f1a9c7dc5c2ae3b619",
+			"time": 419,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				419
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "732c2081-43a9-4d78-9a25-0287793a9109",
+			"name": "/crearUsuarioDesafio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-desafios",
+			"time": 321,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				321
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "bc4ea243-0290-437b-adb5-23d1285f3a9a",
+			"name": "/obtenerUsuarioDesafio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-desafios",
+			"time": 413,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				413
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "00eefe08-4811-4054-ac6e-5757c2239dc6",
+			"name": "/actualizarUsuarioDesafioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-desafios/",
+			"time": 188,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				188
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "0f3a57d5-5a34-483d-91e8-ff3b451eaee5",
+			"name": "/eliminarUsuarioEjercicioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-desafios/",
+			"time": 179,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				179
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "bd010906-0874-40b0-9c39-7eda9c914d2d",
+			"name": "/crearUsuarioProducto",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-productos",
+			"time": 178,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				178
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "be5b9754-b08a-4a7a-8e55-a7a173574e3d",
+			"name": "/obtenerUsuarioProducto",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-productos",
+			"time": 412,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				412
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "78c20400-e14a-4430-b295-8e01a1d0f04d",
+			"name": "/actualizarUsuarioProductoPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-productos/",
+			"time": 179,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				179
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "9406097f-df7f-4af1-918a-153b0183bc28",
+			"name": "/eliminarUsuarioProductoPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/usuario-productos/",
+			"time": 175,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				175
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d27de2d5-71ea-4c2c-bd15-de6c9494e106",
+			"name": "/crearInscripcionDesafio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafio-ejercicios",
+			"time": 311,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				311
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "14bb2671-1802-42e3-acb7-7666de1837d5",
+			"name": "/obtenerInscripcionDesafio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafio-ejercicios",
+			"time": 417,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				417
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "97d9d583-9f90-4171-aa00-975b01eab33b",
+			"name": "/actualizarInscripcionDesafioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafio-ejercicios/69f3d0f5a9c7dc5c2ae3b61c",
+			"time": 532,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				532
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "45de2e74-2339-43bb-95f4-5b3ab0481951",
+			"name": "/eliminarRutinaEjercicioPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/desafio-ejercicios/69f3d0f5a9c7dc5c2ae3b61c",
+			"time": 534,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				534
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "98b5db09-4b13-476b-b394-9e5103631c17",
+			"name": "/obtenerEjercicioWgerPorId",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/wger-api/ejercicios/51",
+			"time": 673,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Obtiene ejercicio por ID desde Wger": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Obtiene ejercicio por ID desde Wger": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				673
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Obtiene ejercicio por ID desde Wger": true
+				}
+			]
+		},
+		{
+			"id": "4c32fbbb-5a31-41d0-883b-3063ada56472",
+			"name": "/obtenerWgerEjercicio",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/wger-api/ejercicios",
+			"time": 583,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Obtiene lista de ejercicios desde Wger": true,
+				"Lista contiene al menos un ejercicio": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Obtiene lista de ejercicios desde Wger": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Lista contiene al menos un ejercicio": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				583
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Obtiene lista de ejercicios desde Wger": true,
+					"Lista contiene al menos un ejercicio": true
+				}
+			]
+		},
+		{
+			"id": "a4adbe22-9497-409b-9a20-374ac4b73376",
+			"name": "/obtenerMusculosWger",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/wger-api/musculos",
+			"time": 439,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta es JSON": true,
+				"Obtiene lista de músculos desde Wger": true,
+				"Lista contiene al menos un músculo": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Obtiene lista de músculos desde Wger": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Lista contiene al menos un músculo": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				439
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta es JSON": true,
+					"Obtiene lista de músculos desde Wger": true,
+					"Lista contiene al menos un músculo": true
+				}
+			]
+		},
+		{
+			"id": "0ba3417b-0cd8-48f5-bf9d-3c3d1a02187c",
+			"name": "/getModels",
+			"url": "https://obligatorio1-dfs-seven.vercel.app//v1/ai-consultas",
+			"time": 897,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200 o 201": true,
+				"Response es JSON": true,
+				"Response time < 5000ms": true,
+				"Respuesta tiene contenido": true,
+				"Respuesta contiene texto de AI": true,
+				"SAD: body vacío → 400 o 500": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200 o 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response es JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time < 5000ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respuesta tiene contenido": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respuesta contiene texto de AI": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SAD: body vacío → 400 o 500": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				897
+			],
+			"allTests": [
+				{
+					"Status code es 200 o 201": true,
+					"Response es JSON": true,
+					"Response time < 5000ms": true,
+					"Respuesta tiene contenido": true,
+					"Respuesta contiene texto de AI": true,
+					"SAD: body vacío → 400 o 500": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 27001,
+	"collection": {
+		"requests": [
+			{
+				"id": "fc5fdc82-04d5-4fa3-af85-a410631b1553",
+				"method": "POST"
+			},
+			{
+				"id": "1152b80b-f08f-4c54-b09f-740488901fef",
+				"method": "POST"
+			},
+			{
+				"id": "83646d36-a310-4c43-bdb6-a30876840c94",
+				"method": "POST"
+			},
+			{
+				"id": "fe8f2641-f1b9-41c0-8ae5-c284e97a70e8",
+				"method": "POST"
+			},
+			{
+				"id": "70035685-908e-497c-b6ca-19d5c71c2c38",
+				"method": "GET"
+			},
+			{
+				"id": "dfdafea8-b9fe-4014-81cd-508dd89c8d68",
+				"method": "GET"
+			},
+			{
+				"id": "dbb7ab23-35a8-4ef0-83e2-bf42ff4a7d31",
+				"method": "GET"
+			},
+			{
+				"id": "b342a598-298a-4d59-999c-6186ee09fbd3",
+				"method": "PATCH"
+			},
+			{
+				"id": "b62d1f96-3a5c-4bf5-98f3-d88ea41ab35f",
+				"method": "PATCH"
+			},
+			{
+				"id": "38ae9e22-b646-4efc-b7fe-c34df8ef6005",
+				"method": "PATCH"
+			},
+			{
+				"id": "ed27e2cb-3e49-4659-a129-b0de2eeb25cd",
+				"method": "POST"
+			},
+			{
+				"id": "949afc26-265d-4cda-955f-6e52b1de7487",
+				"method": "GET"
+			},
+			{
+				"id": "4a31fe51-6860-46d4-a130-0c98b41e6935",
+				"method": "GET"
+			},
+			{
+				"id": "1f601ee8-a10f-40be-b376-083c90fba2c8",
+				"method": "PATCH"
+			},
+			{
+				"id": "f3161e4a-48d4-40a2-bd0a-87cca61af010",
+				"method": "DELETE"
+			},
+			{
+				"id": "b31f76a2-d6a8-4337-8c74-9d2c492de10d",
+				"method": "POST"
+			},
+			{
+				"id": "2ab59f4b-cb86-445b-a797-b8dd32be59c7",
+				"method": "GET"
+			},
+			{
+				"id": "02ba6117-5921-417c-b016-1b938e03e63f",
+				"method": "GET"
+			},
+			{
+				"id": "f99b86b3-57bb-462d-86d4-2e11c1ae23f7",
+				"method": "PATCH"
+			},
+			{
+				"id": "db0873cd-b694-4e62-9d07-b3fdfd08b074",
+				"method": "DELETE"
+			},
+			{
+				"id": "a44c8c80-9afb-4c35-9730-c9758c593f29",
+				"method": "POST"
+			},
+			{
+				"id": "24f6515e-25a4-4eda-8d57-4a9352f242ec",
+				"method": "GET"
+			},
+			{
+				"id": "2a9ec196-4ea8-4e49-b1b3-3d917f1b925a",
+				"method": "GET"
+			},
+			{
+				"id": "99ba33e9-7fb1-4ce0-9e75-0445ad35c187",
+				"method": "PATCH"
+			},
+			{
+				"id": "5de8cbe4-dfc0-4ed4-9439-4a0a5394db1b",
+				"method": "DELETE"
+			},
+			{
+				"id": "4dccedb9-be57-41af-a5b6-3d21d28dec91",
+				"method": "POST"
+			},
+			{
+				"id": "af6b4cf3-729f-4e67-b9d1-130c2877df18",
+				"method": "GET"
+			},
+			{
+				"id": "99e38e07-15e7-4c5b-ba17-df8e996c4e21",
+				"method": "GET"
+			},
+			{
+				"id": "84987ec4-347d-4c48-9253-c6db06594a7d",
+				"method": "PATCH"
+			},
+			{
+				"id": "3b8ef820-dfe2-4117-8184-a7418d320be4",
+				"method": "DELETE"
+			},
+			{
+				"id": "0f0341f7-92c4-4a84-aad2-39e09fd06960",
+				"method": "POST"
+			},
+			{
+				"id": "49b46000-d20b-4df4-a704-280cc89a3252",
+				"method": "GET"
+			},
+			{
+				"id": "8777f3b1-5be5-49d8-84df-47940055329f",
+				"method": "GET"
+			},
+			{
+				"id": "c52d57f5-84d8-4026-96b9-41fad5bcf29c",
+				"method": "PATCH"
+			},
+			{
+				"id": "ec48a3a6-395d-4c63-acc6-e23bff77a813",
+				"method": "DELETE"
+			},
+			{
+				"id": "1140e0e6-bea7-4e40-b9af-3bd2e3c0ab4f",
+				"method": "POST"
+			},
+			{
+				"id": "b5238789-9c09-4ce0-9531-c3ad9cec99d8",
+				"method": "GET"
+			},
+			{
+				"id": "b0944cd7-ab31-4e65-b761-3775b5d48e58",
+				"method": "GET"
+			},
+			{
+				"id": "65f36f92-697d-4072-b0c2-b7718845b2c9",
+				"method": "PATCH"
+			},
+			{
+				"id": "afd889d0-10b5-4438-a7c2-25c6f0b7d7a2",
+				"method": "DELETE"
+			},
+			{
+				"id": "b5ed2803-046b-4336-a6c7-c2077a23eafd",
+				"method": "POST"
+			},
+			{
+				"id": "d8c608c1-92dc-4db5-a915-ec0068f02bd1",
+				"method": "GET"
+			},
+			{
+				"id": "95957e77-c9ea-47aa-82aa-26d791ab9fec",
+				"method": "DELETE"
+			},
+			{
+				"id": "732c2081-43a9-4d78-9a25-0287793a9109",
+				"method": "POST"
+			},
+			{
+				"id": "bc4ea243-0290-437b-adb5-23d1285f3a9a",
+				"method": "GET"
+			},
+			{
+				"id": "00eefe08-4811-4054-ac6e-5757c2239dc6",
+				"method": "PATCH"
+			},
+			{
+				"id": "0f3a57d5-5a34-483d-91e8-ff3b451eaee5",
+				"method": "DELETE"
+			},
+			{
+				"id": "bd010906-0874-40b0-9c39-7eda9c914d2d",
+				"method": "POST"
+			},
+			{
+				"id": "be5b9754-b08a-4a7a-8e55-a7a173574e3d",
+				"method": "GET"
+			},
+			{
+				"id": "78c20400-e14a-4430-b295-8e01a1d0f04d",
+				"method": "PATCH"
+			},
+			{
+				"id": "9406097f-df7f-4af1-918a-153b0183bc28",
+				"method": "DELETE"
+			},
+			{
+				"id": "d27de2d5-71ea-4c2c-bd15-de6c9494e106",
+				"method": "POST"
+			},
+			{
+				"id": "14bb2671-1802-42e3-acb7-7666de1837d5",
+				"method": "GET"
+			},
+			{
+				"id": "97d9d583-9f90-4171-aa00-975b01eab33b",
+				"method": "PATCH"
+			},
+			{
+				"id": "45de2e74-2339-43bb-95f4-5b3ab0481951",
+				"method": "DELETE"
+			},
+			{
+				"id": "98b5db09-4b13-476b-b394-9e5103631c17",
+				"method": "GET"
+			},
+			{
+				"id": "4c32fbbb-5a31-41d0-883b-3063ada56472",
+				"method": "GET"
+			},
+			{
+				"id": "a4adbe22-9497-409b-9a20-374ac4b73376",
+				"method": "GET"
+			},
+			{
+				"id": "0ba3417b-0cd8-48f5-bf9d-3c3d1a02187c",
+				"method": "POST"
+			}
+		]
+	}
+}
