@@ -1,0 +1,37 @@
+$kind: http-request
+url: "{{baseURL}}/v1/gastos/"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"fecha\": \"2026-04-26\",\r
+
+    \  \"descripcion\": \"Compra supermercadoooo\",\r
+
+    \  \"flujoBancario\": -5000,\r
+
+    \  \"porcentajeEconomiaReal\": 100,\r
+
+    \  \"economiaReal\": -5000,\r
+
+    \  \"categoria\": \"{{idCategoria}}\",\r
+
+    \  \"cuenta\": \"{{idCuenta}}\",\r
+
+    \  \"incluirEnGastoBancario\": true,\r
+
+    \  \"incluirEnGastoReal\": true\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "const jsonData = pm.response.json()\r
+
+      pm.collectionVariables.set(\"idGasto\", jsonData.data._id);"
+    language: text/javascript
+order: 1000

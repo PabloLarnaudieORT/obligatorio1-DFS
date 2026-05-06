@@ -1,0 +1,84 @@
+$kind: http-request
+name: /crearDesafio
+url: "{{productionURL}}/v1/desafios"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "nombreDesafio": "Maquina De Guerra 2 {{$randomInt}}",
+        "fechaCreacion": "{{hoy}}",
+        "puntosDesafio": 1500,
+        "categoriaZonaMuscular": "{{idCategoriaZona}}"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: beforeRequest
+    code: "const today = new Date().toISOString().split(\"T\")[0];\r
+
+      pm.environment.set(\"hoy\", today);"
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      const token = pm.collectionVariables.get("token2");
+
+      const jsonData = pm.response.json();
+      const id = (jsonData._id || (jsonData._doc && jsonData._doc._id) || jsonData.id);
+      if (id) pm.collectionVariables.set("idDesafio", id);
+
+      // ── Happy ─────────────────────────────
+      pm.test("Status code es 200 o 201", function () {
+          pm.expect([200, 201]).to.include(pm.response.code);
+      });
+
+      pm.test("Response es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      if (pm.response.code === 200 || pm.response.code === 201) {
+
+          const j = pm.response.json();
+          const doc = j._doc || j;
+
+          pm.test("Campos correctos", function () {
+              pm.expect(doc).to.have.property("_id");
+              pm.expect(doc).to.have.property("nombreDesafio");
+              pm.expect(doc).to.have.property("puntosDesafio");
+          });
+
+          pm.collectionVariables.set("idDesafio", doc._id);
+      }
+
+      // ── SAD ─────────────────────────────
+
+      // falta campos
+      pm.test("SAD: body vacío → 400", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/desafios",
+              method: "POST",
+              header: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + token
+              },
+              body: { mode: "raw", raw: "{}" }
+          }, (err, res) => {
+              pm.expect([400, 500]).to.include(res.code);
+              done();
+          });
+      });
+
+      // sin auth
+      pm.test("SAD: sin token → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/desafios",
+              method: "POST"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 1000

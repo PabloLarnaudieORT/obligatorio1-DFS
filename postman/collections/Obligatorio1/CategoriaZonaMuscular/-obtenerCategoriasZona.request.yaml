@@ -1,0 +1,33 @@
+$kind: http-request
+name: /obtenerCategoriasZona
+url: "{{productionURL}}/v1/categoriasZonaMuscular"
+method: GET
+body:
+  type: file
+  content: {}
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const json = pm.response.json();
+      const nombre = pm.collectionVariables.get("nombreCategoriaZona");
+
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La categoría creada existe en el listado", function () {
+          pm.expect(json).to.have.property("categorias").that.is.an("array");
+
+          const categoria = json.categorias.find(c => c.nombreCategoriaZona === nombre);
+
+          pm.expect(categoria).to.not.be.undefined;
+          pm.expect(categoria).to.have.property("_id");
+
+          pm.collectionVariables.set("idCategoriaZona", categoria._id);
+      });
+    language: text/javascript
+order: 2000

@@ -1,0 +1,9 @@
+$kind: http-request
+name: /eliminarRutinaEjercicioPorId
+url: "{{productionURL}}/v1/rutina-ejercicios/{{idRutinaEjercicio}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+order: 3000

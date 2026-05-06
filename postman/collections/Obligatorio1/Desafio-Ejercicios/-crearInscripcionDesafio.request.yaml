@@ -1,0 +1,26 @@
+$kind: http-request
+name: /crearInscripcionDesafio
+url: "{{productionURL}}/v1/desafio-ejercicios"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"idDesafio\": \"{{idDesafio}}\",\r
+
+    \    \"idEjercicios\": \"{{idEjercicio}}\"\r
+
+    }\r\n"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: |
+      
+      const jsonData = pm.response.json();
+      const id = (jsonData._id || (jsonData._doc && jsonData._doc._id) || jsonData.id);
+      if (id) pm.collectionVariables.set("idDesafioEjercicio", id);
+    language: text/javascript
+order: 1000

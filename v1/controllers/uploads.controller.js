@@ -7,8 +7,6 @@ export const subirImagen = async (req, res) => {
     try {
         await runMulterSingle(upload, "imagen", req, res);
 
-        console.log("FILE:", req.file);
-
         if (!req.file) {
             return res.status(400).json({ error: "No se subió ningún archivo" });
         }
@@ -24,19 +22,17 @@ export const subirImagen = async (req, res) => {
             }
         );
 
-        return res.json({
+        return res.status(200).json({
             url: result.secure_url,
             folder: result.folder,
         });
 
     } catch (error) {
-
-        console.error("ERROR COMPLETO:", error);
+        console.error("Error al subir imagen:", error);
 
         return res.status(500).json({
             error: "Error al subir imagen",
             message: error.message,
-            stack: error.stack,
         });
     }
 };

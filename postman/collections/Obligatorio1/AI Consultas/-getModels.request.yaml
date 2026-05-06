@@ -1,0 +1,126 @@
+$kind: http-request
+name: /getModels
+url: "{{productionURL}}/v1/ai-consultas"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"prompt\": \"Cual es la capital de Uruguay?\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const token = pm.collectionVariables.get("token1");
+
+      const jsonData = pm.response.json();
+      const id = (jsonData._id || (jsonData._doc && jsonData._doc._id) || jsonData.id);
+      if (id) pm.collectionVariables.set("idAiConsulta", id);
+      // ── Happy path ─────────────────────────
+
+      pm.test("Status code es 200 o 201", function () {
+          pm.expect([200, 201]).to.include(pm.response.code);
+      });
+
+      pm.test("Response es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Response time < 5000ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(5000);
+      });
+
+      if (pm.response.code === 200 || pm.response.code === 201) {
+
+          const j = pm.response.json();
+
+          pm.test("Respuesta tiene contenido", function () {
+              pm.expect(j).to.be.an("object");
+              pm.expect(Object.keys(j).length).to.be.greaterThan(0);
+          });
+
+          // FLEXIBLE: soporta distintos formatos posibles del backend
+          pm.test("Respuesta contiene texto de AI", function () {
+
+              const possibleFields = [
+                  "response",
+                  "respuesta",
+                  "answer",
+                  "content",
+                  "message"
+              ];
+
+              const hasText = possibleFields.some(field =>
+                  j[field] && typeof j[field] === "string"
+              );
+
+              pm.expect(hasText).to.be.true;
+          });
+      }
+
+      // ── SAD paths ─────────────────────────
+
+      // sin token
+      pm.test("SAD: sin auth → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/ai-consultas",
+              method: "POST",
+              header: {
+                  "Content-Type": "application/json"
+              },
+              body: {
+                  mode: "raw",
+                  raw: JSON.stringify({
+                      prompt: "test sin token"
+                  })
+              }
+          }, function (err, res) {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+
+      // body vacío
+      pm.test("SAD: body vacío → 400 o 500", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/ai-consultas",
+              method: "POST",
+              header: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + token
+              },
+              body: {
+                  mode: "raw",
+                  raw: "{}"
+              }
+          }, function (err, res) {
+              pm.expect([400, 500]).to.include(res.code);
+              done();
+          });
+      });
+
+      // prompt vacío
+      pm.test("SAD: prompt vacío → 400 o 500", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/ai-consultas",
+              method: "POST",
+              header: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + token
+              },
+              body: {
+                  mode: "raw",
+                  raw: JSON.stringify({ prompt: "" })
+              }
+          }, function (err, res) {
+              pm.expect([400, 500]).to.include(res.code);
+              done();
+          });
+      });
+    language: text/javascript
+order: 1000

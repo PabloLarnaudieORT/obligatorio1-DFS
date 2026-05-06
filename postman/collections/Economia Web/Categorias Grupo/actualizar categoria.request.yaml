@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{baseURL}}/v1/categorias-grupo/{{idCategoriaGrupo}}"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \  \"nombre\": \"Categoria modificada postman\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 3000

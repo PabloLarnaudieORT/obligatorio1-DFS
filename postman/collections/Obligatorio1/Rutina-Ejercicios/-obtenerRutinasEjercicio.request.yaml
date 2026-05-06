@@ -1,0 +1,9 @@
+$kind: http-request
+name: /obtenerRutinasEjercicio
+url: "{{productionURL}}/v1/rutina-ejercicios"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+order: 2000

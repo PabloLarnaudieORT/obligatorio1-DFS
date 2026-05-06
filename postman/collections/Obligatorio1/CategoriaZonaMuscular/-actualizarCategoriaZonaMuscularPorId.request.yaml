@@ -1,0 +1,45 @@
+$kind: http-request
+name: /actualizarCategoriaZonaMuscularPorId
+url: "{{productionURL}}/v1/categoriasZonaMuscular/{{idCategoriaZona}}"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \  \"nombreCategoriaZona\": \"ZonaActualizada{{$randomInt}}\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Actualiza categoría de zona muscular", function () {
+          const json = pm.response.json();
+          const idCategoriaZona = pm.collectionVariables.get("idCategoriaZona");
+
+          console.log("idCategoriaZona:", pm.collectionVariables.get("idCategoriaZona"));
+          console.log("idProducto:", pm.collectionVariables.get("idProducto"));
+
+          pm.expect(json).to.have.property("message");
+          pm.expect(json.message).to.include("Categoría de zona muscular");
+          pm.expect(json.message).to.include("actualizada exitosamente");
+
+          pm.expect(json).to.have.property("_doc");
+          pm.expect(json._doc).to.have.property("_id", idCategoriaZona);
+          pm.expect(json._doc).to.have.property("nombreCategoriaZona");
+
+          pm.collectionVariables.set("nombreCategoriaZonaActualizada", json._doc.nombreCategoriaZona);
+      });
+    language: text/javascript
+order: 4000

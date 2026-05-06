@@ -1,0 +1,84 @@
+$kind: http-request
+name: /crearProducto
+url: "{{productionURL}}/v1/productos"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "puntosRequeridos": 900,
+        "nombreProducto": "Producto {{$randomInt}}",
+        "beneficio": "Vale por un descuento de 10%"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: "\r
+
+      const json = pm.response.json();\r
+
+      console.log(json);\r
+
+      \r
+
+      const producto = json.producto || json.nuevoProducto || json.data || json;\r
+
+      \r
+
+      pm.test(\"Status code es 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Producto creado correctamente\", function () {\r
+
+      \    pm.expect(producto).to.have.property(\"_id\");\r
+
+      \    pm.collectionVariables.set(\"idProducto\", producto._id);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta es JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Producto creado exitosamente\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"message\", \"Producto agregado exitosamente\");\r
+
+      \    pm.expect(json).to.have.property(\"_id\");\r
+
+      \    pm.expect(json).to.have.property(\"puntosRequeridos\", 900);\r
+
+      \    pm.expect(json).to.have.property(\"nombreProducto\");\r
+
+      \    pm.expect(json).to.have.property(\"beneficio\", \"Vale por un descuento de 10%\");\r
+
+      \r
+
+      \    pm.collectionVariables.set(\"idProducto\", json._id);\r
+
+      \    pm.collectionVariables.set(\"nombreProducto\", json.nombreProducto);\r
+
+      });"
+    language: text/javascript
+  - type: beforeRequest
+    code: // No pre-request script needed - ID is extracted in the test script
+    language: text/javascript
+order: 1000

@@ -1,0 +1,9 @@
+$kind: http-request
+name: /eliminarUsuarioEjercicioPorId
+url: "{{productionURL}}/v1/usuario-desafios/{{idUsuarioDesafio}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+order: 4000

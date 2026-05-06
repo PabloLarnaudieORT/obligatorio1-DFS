@@ -1,0 +1,16 @@
+$kind: http-request
+name: /actualizarInscripcionDesafioPorId
+url: "{{productionURL}}/v1/desafio-ejercicios/{{idDesafioEjercicio}}"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"estado\":\"finalizado\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+order: 3000

@@ -1,0 +1,109 @@
+$kind: http-request
+name: /crearEjercicio
+url: "{{productionURL}}/v1/ejercicios"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: "{\r
+
+    \    \"nombreEjercicio\": \"Press Militar {{$randomInt}}\",\r
+
+    \    \"fecha\": \"{{hoy}}\",\r
+
+    \    \"tipoDePeso\": \"kilogramos\",\r
+
+    \    \"peso\": 75,\r
+
+    \    \"repeticiones\": 12,\r
+
+    \    \"series\": 4,\r
+
+    \    \"categoriaMusculo\": \"69e807ed180dc2fbf6972bb2\",\r
+
+    \    \"idUsuarioCreador\": \"{{idUsuario1}}\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: beforeRequest
+    code: "const today = new Date().toISOString().split(\"T\")[0];\r
+
+      pm.environment.set(\"hoy\", today);"
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      const token = pm.collectionVariables.get("token1");
+      const idUsuario = pm.collectionVariables.get("idUsuario1");
+
+      const jsonData = pm.response.json();
+      const id = (jsonData._id || (jsonData._doc && jsonData._doc._id) || jsonData.id);
+      if (id) pm.collectionVariables.set("idEjercicio", id);
+
+      // ── Happy path ─────────────────────────────────────────────
+      pm.test("Status code es 200 o 201", function () {
+          pm.expect([200, 201]).to.include(pm.response.code);
+      });
+
+      pm.test("Response es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      const json = pm.response.json();
+
+      // Soporta _doc o directo
+      const ejercicio = json._doc || json;
+
+      pm.test("Ejercicio creado correctamente", function () {
+          pm.expect(ejercicio).to.have.property("_id");
+          pm.expect(ejercicio).to.have.property("nombreEjercicio");
+      });
+
+      // Guardar ID
+      pm.collectionVariables.set("idEjercicio", ejercicio._id);
+
+      // ── SAD ───────────────────────────────────────────────────
+
+      // sin nombre
+      pm.test("SAD: falta nombre → 400", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/ejercicios",
+              method: "POST",
+              header: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + token
+              },
+              body: {
+                  mode: "raw",
+                  raw: JSON.stringify({
+                      fecha: "2026-01-01",
+                      tipoDePeso: "kilogramos",
+                      peso: 50,
+                      repeticiones: 10,
+                      series: 3,
+                      categoriaMusculo: "69e807ed180dc2fbf6972bb2",
+                      idUsuarioCreador: idUsuario
+                  })
+              }
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(400);
+              done();
+          });
+      });
+
+      // sin token
+      pm.test("SAD: sin token → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/ejercicios",
+              method: "POST"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 1000

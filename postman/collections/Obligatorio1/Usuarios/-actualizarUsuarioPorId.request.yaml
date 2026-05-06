@@ -1,0 +1,61 @@
+$kind: http-request
+name: /actualizarUsuarioPorId
+url: "{{productionURL}}/v1/usuarios/{{idUsuario2}}"
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+        "username": "{{randomUsername1}}_editado"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code es 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta es JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Admin actualiza usuario por id\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \    const username = pm.response.json.username\r
+
+      \    const idEsperado = pm.collectionVariables.get(\"idUsuario2\") || pm.environment.get(\"idUsuario2\");\r
+
+      \    const usernameEsperado = pm.collectionVariables.get(\"randomUsername1\") + \"_editado\";\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"message\");\r
+
+      \    pm.expect(json.message).to.include(\"Usuario\");\r
+
+      \    pm.expect(json.message).to.include(\"actualizado exitosamente\");\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"_doc\");\r
+
+      \    pm.expect(json._doc).to.have.property(\"_id\", idEsperado);\r
+
+      \    pm.expect(json._doc).to.have.property(\"username\", usernameEsperado);\r
+
+      });"
+    language: text/javascript
+order: 4000

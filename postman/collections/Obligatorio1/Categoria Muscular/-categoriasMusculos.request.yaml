@@ -1,0 +1,27 @@
+$kind: http-request
+name: /categoriasMusculos
+url: "{{productionURL}}/v1/categoriasMusculos"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Obtiene categorías musculares", function () {
+          const json = pm.response.json();
+
+          pm.expect(json).to.have.property("message", "Categorias musculares obtenidas");
+          pm.expect(json).to.have.property("categoriasMusculares").that.is.an("array");
+      });
+    language: text/javascript
+order: 2000

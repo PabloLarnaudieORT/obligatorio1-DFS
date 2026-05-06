@@ -1,0 +1,9 @@
+$kind: http-request
+name: /obtenerInscripcionDesafio
+url: "{{productionURL}}/v1/desafio-ejercicios"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+order: 2000

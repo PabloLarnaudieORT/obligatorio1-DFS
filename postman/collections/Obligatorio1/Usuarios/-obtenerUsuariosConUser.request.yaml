@@ -1,0 +1,22 @@
+$kind: http-request
+name: /obtenerUsuariosConUser
+url: "{{productionURL}}/v1/usuarios"
+method: GET
+headers:
+  Content-Type: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 403", function () {
+          pm.response.to.have.status(403);
+      });
+
+      pm.test("Usuario normal no puede obtener usuarios", function () {
+          pm.expect(pm.response.text()).to.include("No tienes permisos para esta acción");
+      });
+    language: text/javascript
+order: 2000

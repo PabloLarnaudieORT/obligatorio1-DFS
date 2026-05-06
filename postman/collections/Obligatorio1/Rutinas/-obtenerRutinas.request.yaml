@@ -1,0 +1,42 @@
+$kind: http-request
+name: /obtenerRutinas
+url: "{{productionURL}}/v1/rutinas/"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Es lista de rutinas", function () {
+          const json = pm.response.json();
+
+          pm.expect(json).to.have.property("rutinas");
+          pm.expect(json.rutinas).to.be.an("object");
+          pm.expect(json.rutinas).to.have.property("rutinas").that.is.an("array");
+      });
+
+      pm.test("Campos mínimos", function () {
+          const json = pm.response.json();
+          const arr = json.rutinas.rutinas;
+
+          pm.expect(arr).to.be.an("array");
+      });
+
+      // sin token
+      pm.test("SAD: sin auth → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/rutinas",
+              method: "GET"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 2000

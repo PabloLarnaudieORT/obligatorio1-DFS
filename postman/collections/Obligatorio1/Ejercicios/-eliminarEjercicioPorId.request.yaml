@@ -1,0 +1,50 @@
+$kind: http-request
+name: /eliminarEjercicioPorId
+url: "{{productionURL}}/v1/ejercicios/{{idEjercicio}}"
+method: DELETE
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Respuesta válida", function () {
+          pm.response.to.be.json;
+      });
+
+      // verificar que se eliminó
+      pm.test("SAD: ya no existe → 404", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/ejercicios/" + pm.collectionVariables.get("idEjercicio"),
+              method: "GET",
+              header: {
+                  Authorization: "Bearer " + pm.collectionVariables.get("token1")
+              }
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(404);
+              done();
+          });
+      });
+
+      // sin token
+      pm.test("SAD: sin auth → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/ejercicios/" + pm.collectionVariables.get("idEjercicio"),
+              method: "DELETE"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 5000

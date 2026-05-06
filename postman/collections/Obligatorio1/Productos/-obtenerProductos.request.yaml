@@ -1,0 +1,45 @@
+$kind: http-request
+name: /obtenerProductos
+url: "{{productionURL}}/v1/productos"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code es 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta es JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Obtiene productos paginados\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"message\", \"Productos obtenidos\");\r
+
+      \    pm.expect(json).to.have.property(\"totalProductos\").that.is.a(\"number\");\r
+
+      \    pm.expect(json).to.have.property(\"totalPages\").that.is.a(\"number\");\r
+
+      \    pm.expect(json).to.have.property(\"currentPage\").that.is.a(\"number\");\r
+
+      \    pm.expect(json).to.have.property(\"productos\").that.is.an(\"array\");\r
+
+      });"
+    language: text/javascript
+order: 2000

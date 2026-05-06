@@ -1,0 +1,9 @@
+$kind: http-request
+name: /obtenerUsuarioProducto
+url: "{{productionURL}}/v1/usuario-productos"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+order: 2000

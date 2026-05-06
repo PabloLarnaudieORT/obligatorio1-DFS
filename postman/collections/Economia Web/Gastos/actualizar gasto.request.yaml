@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{baseURL}}/v1/gastos/{{idGasto}}"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \  //\"fecha\": \"2026-04-26\",\r
+
+    \  \"descripcion\": \"Compra supermercado modificada\" //,\r
+
+    \  //\"flujoBancario\": -5000,\r
+
+    \  //\"porcentajeEconomiaReal\": 100,\r
+
+    \  //\"economiaReal\": -5000,\r
+
+    \  //\"categoria\": \"{{idCategoria}}\",\r
+
+    \  //\"cuenta\": \"{{idCuenta}}\",\r
+
+    \  //\"incluirEnGastoBancario\": true,\r
+
+    \  //\"incluirEnGastoReal\": true\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 2000

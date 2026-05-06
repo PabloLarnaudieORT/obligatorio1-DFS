@@ -1,0 +1,128 @@
+$kind: collection
+description: |-
+  # Obligatorio1
+
+  Esta colección agrupa todos los endpoints de la API REST del proyecto **Obligatorio1**, una plataforma de gestión de rutinas de ejercicio, desafíos, usuarios y productos. La API utiliza autenticación mediante **Bearer Token** (`{{token}}`), que debe obtenerse previamente a través del endpoint de Login.
+
+  ## Base URL
+
+  Todos los endpoints utilizan la variable de entorno `{{baseURL}}` como base de la URL.
+
+  ---
+
+  ## Módulos disponibles
+
+  ### 🔐 Autenticación
+
+  - **Registro** (`POST /v1/auth/register`): Crea una nueva cuenta de usuario.
+      
+  - **Login** (`POST /v1/auth/login`): Autentica al usuario y devuelve el token de acceso.
+      
+
+  ### 👤 Usuarios
+
+  Gestión completa de usuarios: obtener listado, obtener por ID, actualizar y eliminar.
+
+  ### 🏋️ Ejercicios
+
+  CRUD completo de ejercicios disponibles en la plataforma.
+
+  ### 💪 Categoría Muscular
+
+  Gestión de categorías musculares asociadas a los ejercicios.
+
+  ### 🗂️ CategoriaZonaMuscular
+
+  Gestión de zonas musculares para clasificar ejercicios.
+
+  ### 📋 Rutinas
+
+  Creación, actualización, obtención y eliminación de rutinas de entrenamiento.
+
+  ### 🔗 Rutina-Ejercicios
+
+  Asociación de ejercicios a rutinas: crear, obtener y eliminar relaciones.
+
+  ### 🏆 Desafios
+
+  CRUD completo de desafíos disponibles en la plataforma.
+
+  ### 🎯 Desafio-Ejercicios
+
+  Gestión de los ejercicios asociados a cada desafío.
+
+  ### 📌 Usuario-Desafios
+
+  Inscripción de usuarios a desafíos: crear, obtener, actualizar y eliminar inscripciones.
+
+  ### 🛒 Productos
+
+  Gestión del catálogo de productos disponibles.
+
+  ### 🧾 Usuario-Productos
+
+  Relación entre usuarios y productos adquiridos o asignados.
+
+  ### 🤖 AI Consultas
+
+  Endpoints para realizar consultas asistidas por inteligencia artificial.
+
+  ### 🌐 WgerApi-Ejemplo
+
+  Integración con la API externa **Wger** para obtener ejercicios, categorías y músculos de referencia.
+
+  ---
+
+  ## Autenticación
+
+  La colección usa **Bearer Token** de forma global. Asegúrate de ejecutar primero el endpoint `/login` y guardar el token en la variable `{{token}}` del entorno activo.
+
+  ---
+
+  ## Variables de entorno requeridas
+
+  | Variable | Descripción |
+  | --- | --- |
+  | `{{baseURL}}` | URL base del servidor (ej: `http://localhost:3000`) |
+  | `{{token}}` | Token JWT obtenido tras el login |
+  | `{{idUsuario}}` | ID de un usuario específico |
+  | `{{idRutina}}` | ID de una rutina específica |
+  | `{{idRutinaEjercicio}}` | ID de una relación rutina-ejercicio |
+  | `{{idDesafioEjercicio}}` | ID de un desafío-ejercicio |
+  | `{{idUsuarioDesafio}}` | ID de una inscripción usuario-desafío |
+
+  ---
+
+  _Colección generada para el proyecto académico Obligatorio1 — Universidad ORT Uruguay._
+variables:
+  randomUsername: ""
+  token: ""
+  token2: ""
+  idUsuario: ""
+  idUsuario2: ""
+  idEjercicio: ""
+  idRutina: ""
+  idCategoriaZona: ""
+  idDesafio: ""
+  idProducto: ""
+  idCategoriaMusculo: ""
+  idInscripcionDesafio: ""
+  idDesafioEjercicio: ""
+  idUsuarioDesafio: ""
+  idUsuarioProductos: ""
+  randomUsername1: ""
+  randomUsername2: ""
+  idRutinaEjercicio: ""
+  token1: ""
+  idUsuario1: ""
+  nombreProducto: ""
+  beneficioProductoActualizado: ""
+  nombreCategoriaMusculoActualizada: ""
+  nombreCategoriaZonaActualizada: ""
+  nombreCategoriaZona: ""
+auth:
+  - id: 51dff6c4-3aa6-4071-9323-1b0eb925685a
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{token}}"

@@ -1,0 +1,40 @@
+$kind: http-request
+name: /crearUsuarioDesafio
+url: "{{productionURL}}/v1/usuario-desafios"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"idUsuario\": \"{{idUsuario}}\",\r
+
+    \    \"idDesafio\": \"{{idDesafio}}\",\r
+
+    \    \"estado\": \"en curso\",\r
+
+    \    \"fechaInicio\": \"{{hoy}}\"\r
+
+    }\r\n"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const jsonData = pm.response.json();
+      const id = (jsonData._doc && jsonData._doc._id) || jsonData._id || jsonData.id;
+      pm.collectionVariables.set("idUsuarioDesafio", id);
+    language: text/javascript
+  - type: beforeRequest
+    code: |-
+      const today = new Date().toISOString().split("T")[0];
+      pm.environment.set("hoy", today);
+
+      // Ensure idDesafio is set to a real value from the last Desafios run
+      const idDesafio = pm.collectionVariables.get("idDesafio");
+      if (!idDesafio || idDesafio === "null" || idDesafio === "") {
+          pm.collectionVariables.set("idDesafio", "69f017d527d8ad77389daef1");
+      }
+    language: text/javascript
+order: 1000
