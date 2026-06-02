@@ -16,7 +16,7 @@ export const crearDesafioService = async (desafio) => {
 }
 
 export const obtenerDesafiosService = async () => {
-    const desafios = await Desafio.find()
+    const desafios = await Desafio.find().populate("categoriaZonaMuscular", "nombreCategoriaZona")
 
     const resultado = await Promise.all(
         desafios.map(async (desafio) => {

@@ -1,0 +1,8 @@
+name: economiaWeb
+values:
+  - key: baseURL
+    value: ''
+  - key: productionURL
+    value: ''
+  - key: codigo
+    value: ''

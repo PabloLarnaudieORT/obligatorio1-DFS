@@ -1,0 +1,10 @@
+$kind: http-request
+name: obtener usuarios como admin
+url: "{{baseURL}}/v1/usuarios"
+method: GET
+auth:
+  credentials:
+    - key: token
+      value: "{{token}}"
+  type: bearer
+order: 4000

@@ -1,5 +1,5 @@
 $kind: http-request
-name: /login
+name: /loginAdmin
 description: |-
   This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.
 
@@ -10,13 +10,13 @@ body:
   type: json
   content: |-
     {
-    	"username": "Pablo",
+    	"username": "PabloAdmin",
         "password": "123456789"
     }
 auth:
-  type: bearer
   credentials:
     token: "{{token}}"
+  type: bearer
 scripts:
   - type: afterResponse
     code: |-
@@ -26,4 +26,4 @@ scripts:
           pm.collectionVariables.set("idUsuario", jsonData.id);
       }
     language: text/javascript
-order: 4000
+order: 3719

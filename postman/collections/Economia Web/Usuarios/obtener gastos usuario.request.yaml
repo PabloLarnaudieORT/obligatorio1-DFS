@@ -1,0 +1,5 @@
+$kind: http-request
+name: obtener gastos usuario
+url: "{{baseURL}}/v1/usuarios/me/gastos"
+method: GET
+order: 8000

@@ -1,0 +1,5 @@
+$kind: http-request
+name: obtener categorias usuario
+url: "{{baseURL}}/v1/usuarios/me/categorias"
+method: GET
+order: 7000
