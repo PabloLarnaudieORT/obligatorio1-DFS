@@ -9,7 +9,7 @@ export const editarDesafiosSchema = Joi.object({
 
 export const crearDesafiosSchema = Joi.object({
   nombreDesafio: Joi.string().min(2).max(100).required(),
-  fechaLimite: Joi.date().min(Joi.ref("fechaCreacion")).required(),
+  fechaLimite: Joi.date().required(),
   puntosDesafio: Joi.number().min(0).max(10000).required(),
   categoriaZonaMuscular: Joi.string().required(),
 });
