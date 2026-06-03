@@ -23,7 +23,7 @@ const router = express.Router({ mergeParams: true });
 router.post("/", authorize(["admin"]), validateBody(crearDesafiosSchema), crearDesafio)
 router.get("/", obtenerDesafios)
 router.get("/:id", obtenerDesafioPorId)
-router.patch("/:id", authorize(["admin", "user"]), validateBody(editarDesafiosSchema), actualizarDesafio)
+router.patch("/:id", authorize(["admin"]), validateBody(editarDesafiosSchema), actualizarDesafio)
 router.delete("/:id", authorize(["admin", "user"]), eliminarDesafio)
 
 export default router;
