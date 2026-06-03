@@ -24,6 +24,6 @@ router.post("/", authorize(["admin"]), validateBody(crearDesafiosSchema), crearD
 router.get("/", obtenerDesafios)
 router.get("/:id", obtenerDesafioPorId)
 router.patch("/:id", authorize(["admin"]), validateBody(editarDesafiosSchema), actualizarDesafio)
-router.delete("/:id", authorize(["admin", "user"]), eliminarDesafio)
+router.delete("/:id", authorize(["admin"]), eliminarDesafio)
 
 export default router;
