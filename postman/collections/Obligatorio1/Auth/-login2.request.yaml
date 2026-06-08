@@ -1,0 +1,55 @@
+$kind: http-request
+name: /login2
+url: "{{productionURL}}/v1/auth/login"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"username\": \"{{randomUsername2}}\",\r
+
+    \  \"password\": \"123456789\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: |-
+      // Guardar variables dinámicas
+      const jsonData = pm.response.json();
+      if (jsonData.token) {
+          pm.collectionVariables.set("token2", jsonData.token);
+          pm.collectionVariables.set("idUsuario2", jsonData.id);
+      }
+
+      function decodeJwt(token) {
+          const payload = token.split(".")[1];
+          return JSON.parse(atob(payload));
+      }
+
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Login admin exitoso", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("message", "Inicio de sesión exitoso");
+          pm.expect(json).to.have.property("token");
+          pm.expect(json.token).to.be.a("string").and.not.empty;
+      });
+
+      pm.test("Token admin contiene rol admin", function () {
+          const json = pm.response.json();
+          const decoded = decodeJwt(json.token);
+
+          pm.expect(decoded).to.have.property("id");
+          pm.expect(decoded).to.have.property("rol", "admin");
+
+          pm.environment.set("token2", json.token);
+          pm.environment.set("idUsuario2", decoded.id);
+      });
+    language: text/javascript
+order: 4000

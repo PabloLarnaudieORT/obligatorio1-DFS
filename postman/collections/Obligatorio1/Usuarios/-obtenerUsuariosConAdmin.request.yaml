@@ -1,0 +1,32 @@
+$kind: http-request
+name: /obtenerUsuariosConAdmin
+url: "{{productionURL}}/v1/usuarios"
+method: GET
+headers:
+  Content-Type: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Admin obtiene listado de usuarios", function () {
+          const json = pm.response.json();
+
+          pm.expect(json).to.have.property("message", "Usuarios obtenidos");
+          pm.expect(json).to.have.property("total").that.is.a("number");
+          pm.expect(json).to.have.property("totalPages").that.is.a("number");
+          pm.expect(json).to.have.property("currentPage").that.is.a("number");
+          pm.expect(json).to.have.property("usuarios").that.is.an("array");
+      });
+    language: text/javascript
+order: 1000

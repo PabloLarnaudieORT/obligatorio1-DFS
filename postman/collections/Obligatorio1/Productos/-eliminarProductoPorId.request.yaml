@@ -1,0 +1,49 @@
+$kind: http-request
+name: /eliminarProductoPorId
+url: "{{productionURL}}/v1/productos/{{idProducto}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code es 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta es JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Producto eliminado exitosamente\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \    const idProducto = pm.collectionVariables.get(\"idProducto\");\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"message\");\r
+
+      \    pm.expect(json.message).to.include(\"Producto\");\r
+
+      \    pm.expect(json.message).to.include(\"eliminado exitosamente\");\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"_doc\");\r
+
+      \    pm.expect(json._doc).to.have.property(\"_id\", idProducto);\r
+
+      });"
+    language: text/javascript
+order: 5000

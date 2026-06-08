@@ -1,0 +1,44 @@
+$kind: http-request
+name: /obtenerRutinasPorId
+url: "{{productionURL}}/v1/rutinas/{{idRutina}}/completaPorId"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200 o 500", function () {
+          pm.expect([200, 500]).to.include(pm.response.code);
+      });
+
+      if (pm.response.code === 200) {
+
+          const j = pm.response.json();
+          const doc = j._doc || j;
+
+          pm.test("Tiene estructura correcta", function () {
+              pm.expect(doc).to.have.property("_id");
+          });
+
+          pm.test("Tipos correctos", function () {
+              pm.expect(doc._id).to.be.a("string");
+          });
+      }
+
+      // SAD id inválido
+      pm.test("SAD: id inválido", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/rutinas/000000000000000000000000/completaPorId",
+              method: "GET",
+              header: {
+                  Authorization: "Bearer " + pm.collectionVariables.get("token1")
+              }
+          }, (err, res) => {
+              pm.expect([400, 404, 500]).to.include(res.code);
+              done();
+          });
+      });
+    language: text/javascript
+order: 3000

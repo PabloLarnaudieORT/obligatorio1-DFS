@@ -22,7 +22,7 @@ export const createRutinaService = async (rutina, usuarioId) => {
             }
         }
 
-        const nuevaRutina = new Rutina(rutina, usuarioId);
+        const nuevaRutina = new Rutina({...rutina, idUsuarioCreador: usuarioId});
         await nuevaRutina.save();
         return nuevaRutina;
     } catch (error) {

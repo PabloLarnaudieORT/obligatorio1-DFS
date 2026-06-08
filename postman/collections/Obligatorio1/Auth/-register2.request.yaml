@@ -1,0 +1,57 @@
+$kind: http-request
+name: /register2
+url: "{{productionURL}}/v1/auth/register"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"username\": \"{{randomUsername2}}\",\r
+
+    \  \"password\": \"123456789\",\r
+
+    \  \"confirmPassword\": \"123456789\",\r
+
+    \  \"rol\": \"admin\",\r
+
+    \  \"codigoAdmin\": \"GYM2026\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      // Guardar id del usuario creado
+      const jsonData = pm.response.json();
+      if (jsonData && jsonData.id) {
+          pm.collectionVariables.set("idUsuario2", jsonData.id);
+      }
+
+
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Registro de admin exitoso", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("message", "Registro de usuario exitoso");
+      });
+
+      pm.test("Register admin no debe devolver token", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.not.have.property("token");
+      });
+    language: text/javascript
+  - type: beforeRequest
+    code: |-
+      const randomUsername2 = "user_" + Math.random().toString(36).substring(2, 8);
+      pm.collectionVariables.set("randomUsername2", randomUsername2);
+    language: text/javascript
+order: 2000

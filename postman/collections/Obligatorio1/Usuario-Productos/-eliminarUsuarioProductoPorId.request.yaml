@@ -1,0 +1,9 @@
+$kind: http-request
+name: /eliminarUsuarioProductoPorId
+url: "{{productionURL}}/v1/usuario-productos/{{idUsuarioProductos}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+order: 4000

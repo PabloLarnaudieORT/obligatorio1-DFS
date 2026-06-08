@@ -1,0 +1,26 @@
+$kind: http-request
+name: /crearRutinaEjercicio
+url: "{{productionURL}}/v1/rutina-ejercicios"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"idRutina\": \"{{idRutina}}\",\r
+
+    \    \"idEjercicio\":\"{{idEjercicio}}\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: "const jsonData = pm.response.json();\r
+
+      const id = (jsonData._doc && jsonData._doc._id) || jsonData._id || jsonData.id;\r
+
+      pm.collectionVariables.set(\"idRutinaEjercicio\", id);"
+    language: text/javascript
+order: 1000

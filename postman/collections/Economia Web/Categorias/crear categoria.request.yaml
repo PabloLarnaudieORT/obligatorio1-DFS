@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{baseURL}}/v1/categorias"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"nombre\": \"Categoria nueva postman 3\",\r
+
+    \  \"categoriaGrupo\": \"{{idCategoriaGrupo}}\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "const jsonData = pm.response.json()\r
+
+      pm.collectionVariables.set(\"idCategoria\", jsonData.data._id);"
+    language: text/javascript
+order: 3000

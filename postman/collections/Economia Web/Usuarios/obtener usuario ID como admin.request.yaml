@@ -1,0 +1,9 @@
+$kind: http-request
+name: obtener usuario ID como admin
+url: "{{baseURL}}/v1/usuarios/{{idUsuarioObtener}}"
+method: GET
+auth:
+  credentials:
+    token: "{{token}}"
+  type: bearer
+order: 1167867651898242

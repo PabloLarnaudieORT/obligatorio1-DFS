@@ -1,0 +1,46 @@
+$kind: http-request
+name: /obtenerDesafios
+url: "{{productionURL}}/v1/desafios"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      const j = pm.response.json();
+
+      // soporta cualquier estructura
+      const arr = Array.isArray(j)
+          ? j
+          : j.desafios || j.data || j.results || [];
+
+      pm.test("Es lista de desafios", function () {
+          pm.expect(arr).to.be.an("array");
+      });
+
+      pm.test("Campos mínimos", function () {
+          if (arr.length > 0) {
+              const doc = arr[0]._doc || arr[0];
+              pm.expect(doc).to.have.property("_id");
+              pm.expect(doc).to.have.property("nombreDesafio");
+          }
+      });
+
+      // sin token
+      pm.test("SAD: sin auth → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/desafios",
+              method: "GET"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 2000

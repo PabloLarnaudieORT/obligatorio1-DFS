@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseURL}}/v1/categorias?page=20"
+method: GET
+queryParams:
+  page: "20"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 1000

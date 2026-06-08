@@ -1,0 +1,12 @@
+$kind: http-request
+name: actualizar usuario
+url: "{{baseURL}}/v1/usuarios"
+method: PATCH
+body:
+  type: json
+  content: ""
+auth:
+  credentials:
+    token: "{{token}}"
+  type: bearer
+order: 1000

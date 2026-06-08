@@ -1,0 +1,5 @@
+$kind: http-request
+name: obtener bancos usuario
+url: "{{baseURL}}/v1/usuarios/me/bancos"
+method: GET
+order: 6000

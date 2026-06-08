@@ -1,0 +1,5 @@
+$kind: http-request
+name: eliminar todos usuarios
+url: "{{baseURL}}/v1/usuarios/eliminar-todo"
+method: DELETE
+order: 9000

@@ -1,0 +1,39 @@
+$kind: http-request
+name: /obtenerDesafioPorId
+url: "{{productionURL}}/v1/desafios/{{idDesafio}}"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      const j = pm.response.json();
+      const doc = j.desafio || j._doc || j;
+
+      pm.test("Campos correctos", function () {
+          pm.expect(doc).to.have.property("_id");
+          pm.expect(doc).to.have.property("nombreDesafio");
+          pm.expect(doc).to.have.property("puntosDesafio");
+      });
+
+      // SAD
+      pm.test("SAD: id inválido", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/desafios/000000000000000000000000",
+              method: "GET",
+              header: {
+                  Authorization: "Bearer " + pm.collectionVariables.get("token1")
+              }
+          }, (err, res) => {
+              pm.expect([400, 404]).to.include(res.code);
+              done();
+          });
+      });
+    language: text/javascript
+order: 3000

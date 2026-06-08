@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseURL}}/v1/bancos"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"nombre\": \"Santander Postman 3\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "const jsonData = pm.response.json()\r
+
+      pm.collectionVariables.set(\"idBanco\", jsonData.data._id);"
+    language: text/javascript
+order: 2000

@@ -1,0 +1,9 @@
+$kind: http-request
+name: /obtenerUsuarioDesafio
+url: "{{productionURL}}/v1/usuario-desafios"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+order: 2000

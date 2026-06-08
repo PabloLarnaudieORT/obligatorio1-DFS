@@ -1,0 +1,41 @@
+$kind: http-request
+name: /actualizarMusculosPorId
+url: "{{productionURL}}/v1/categoriasMusculos/{{idCategoriaMusculo}}"
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+        "nombre": "Test categorias musculo {{$randomInt}}"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Actualiza categoría muscular", function () {
+          const json = pm.response.json();
+          const idCategoriaMusculo = pm.collectionVariables.get("idCategoriaMusculo");
+
+          pm.expect(json).to.have.property("message");
+          pm.expect(json.message).to.include("Categoria muscular");
+          pm.expect(json.message).to.include("actualizada exitosamente");
+
+          pm.expect(json).to.have.property("_doc");
+          pm.expect(json._doc).to.have.property("_id", idCategoriaMusculo);
+          pm.expect(json._doc).to.have.property("nombre");
+
+          pm.collectionVariables.set("nombreCategoriaMusculoActualizada", json._doc.nombre);
+      });
+    language: text/javascript
+order: 4000

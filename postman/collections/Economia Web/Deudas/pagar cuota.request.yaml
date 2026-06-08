@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{baseURL}}/v1/deudas/{{idDeuda}}/pagar-cuota"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"cuenta\": \"{{idCuenta}}\",\r
+
+    \  \"categoria\": \"{{idCategoria}}\",\r
+
+    \  \"fecha\": \"2026-04-26\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 5000

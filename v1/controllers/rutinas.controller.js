@@ -9,27 +9,51 @@ import {
 } from "../services/rutina.service.js";
 
 export const obtenerRutinasCompletas = async (req, res) => {
-    const {page, limit, zona} = req.query;
+  try {
 
-    // Obtener el userId y rol del token
+    const { page, limit, zona } = req.query;
+
     const userId = req.user?.id;
     const userRol = req.user?.rol;
 
     if (zona) {
-        const rutinasPorZona = await obtenerRutinasPorZonaService(zona);
-        return res.json({ 
-            message: "Rutinas filtradas por zona muscular", 
-            rutinas: rutinasPorZona 
-        });
+      const rutinasPorZona =
+        await obtenerRutinasPorZonaService(zona);
+
+      return res.json({
+        message: "Rutinas filtradas por zona muscular",
+        rutinas: rutinasPorZona,
+      });
     }
 
-    // Si es admin, pasar null para traer todas las rutinas
-    // Si es user, pasar el userId para traer solo las del usuario
-    const userIdFilter = userRol === 'admin' ? null : userId;
+    const userIdFilter =
+      userRol === "admin"
+        ? null
+        : userId;
 
-    const rutinasObtenidas = await obtenerRutinasCompletasService(page, limit, userIdFilter);
-    res.json({ message: "Rutinas obtenidas", rutinas: rutinasObtenidas });
-}
+    const rutinasObtenidas =
+      await obtenerRutinasCompletasService(
+        page,
+        limit,
+        userIdFilter
+      );
+
+    res.json({
+      message: "Rutinas obtenidas",
+      rutinas: rutinasObtenidas,
+    });
+
+  } catch (error) {
+
+    console.log("ERROR RUTINAS:");
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};
 
 export const obtenerRutinaCompletaPorId = async (req, res) => {
     const { id } = req.params;
@@ -39,10 +63,40 @@ export const obtenerRutinaCompletaPorId = async (req, res) => {
 
 // Controladores para las rutinas
 export const crearRutina = async (req, res) => {
-    const { idUsuarioCreador } = req.body;
-    const rutinaCreada = await createRutinaService(req.body, idUsuarioCreador);
-    res.json({ message: "Rutina agregada exitosamente", ...rutinaCreada });
-}
+
+  try {
+
+    console.log("BODY:");
+    console.log(req.body);
+
+    console.log("USER:");
+    console.log(req.user);
+
+    const rutinaCreada =
+      await createRutinaService(
+        req.body,
+        req.user.id
+      );
+
+    res.json({
+      message: "Rutina agregada exitosamente",
+      ...rutinaCreada
+    });
+
+  } catch (error) {
+
+    console.log("ERROR CREAR RUTINA");
+    console.log(error);
+
+    res.status(
+      error.status || 500
+    ).json({
+      message: error.message,
+      details: error.details
+    });
+
+  }
+};
 
 export const obtenerRutinas = async (req, res) => {
     const rutinasObtenidas = await obtenerRutinasService();

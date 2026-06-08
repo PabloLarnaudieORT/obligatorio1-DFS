@@ -1,0 +1,47 @@
+$kind: http-request
+name: /obtenerEjercicioWgerPorId
+url: "{{productionURL}}/v1/wger-api/ejercicios/51"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code es 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta es JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Obtiene ejercicio por ID desde Wger\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"message\");\r
+
+      \    pm.expect(json.message).to.include(\"Ejercicio 51 obtenido desde Wger\");\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"ejercicio\");\r
+
+      \    pm.expect(json.ejercicio).to.be.an(\"object\");\r
+
+      \    pm.expect(json.ejercicio).to.have.property(\"id\", 51);\r
+
+      });"
+    language: text/javascript
+order: 1000

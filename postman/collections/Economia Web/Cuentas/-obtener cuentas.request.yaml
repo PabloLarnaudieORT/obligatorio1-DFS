@@ -1,0 +1,26 @@
+$kind: http-request
+name: /obtener cuentas
+description: |-
+  This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.
+
+  A successful POST request typically returns a `200 OK` or `201 Created` response code.
+url: "{{baseURL}}/v1/cuentas"
+method: GET
+body:
+  type: json
+  content: |-
+    {
+    	"username": "Pablo",
+        "password": "123456789"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const jsonData = pm.response.json()
+      pm.collectionVariables.set("idUsuario", jsonData.id);
+    language: text/javascript
+order: 1000

@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{baseURL}}/v1/bancos/{{idBanco}}"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \  \"nombre\": \"Santander Actualizado Postman\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 3000

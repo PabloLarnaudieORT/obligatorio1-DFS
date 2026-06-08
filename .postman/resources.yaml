@@ -1,0 +1,10 @@
+workspace:
+  id: 70960e7b-b04a-4655-8f9f-4bdaec2d50b0
+localResources:
+  collections:
+    - ../postman/collections/Obligatorio1
+    - ../postman/collections/Economia Web
+cloudResources:
+  collections:
+    ../postman/collections/Obligatorio1: 54314657-de046e65-96dc-4bda-82e3-8808cc87294e
+    ../postman/collections/Economia Web: 54314657-ab85bb45-b4e7-4a24-9d62-73c5d8dc512f
