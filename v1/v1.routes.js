@@ -29,13 +29,13 @@ router.use(authenticateToken);
 //rutas protegidas
 router.use("/ejercicios", ejercicioRouter);
 
-router.use("/categoriasZonaMuscular", authorize(["admin", "user"]), categoriaZonaMuscularRouter);
 router.use("/rutinas", authorize(["user"]), rutinasRouter);
 router.use("/categoriasMusculos", authorize(["user"]), categoriaMusculosRoutes);
 router.use("/usuario-desafios", authorize(["user"]), usuarioDesafiosRouter);
 router.use("/usuario-productos", authorize(["user"]), usuarioProductosRouter);
 router.use("/rutina-ejercicios", authorize(["user"]), rutinaEjercicioRouter);
 router.use("/wger-api", authorize(["user"]), wgerApiRouter);
+router.use("/categoriasZonaMuscular", authorize(["user", "admin"]), categoriaZonaMuscularRouter);
 
 router.use("/usuarios", authorize(["admin","user"]), usuariosRouter);
 router.use("/productos", authorize(["admin"]), productosRouter);
