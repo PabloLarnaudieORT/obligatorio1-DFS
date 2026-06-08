@@ -17,7 +17,7 @@ export const crearCategoriaZonaMusculoService = async (categoria, idUsuario) => 
     }
 }
 
-export const obtenerCategoriaZonaMusculoService = async (userIdFilter) => {
+export const obtenerCategoriaZonaMusculoService = async () => {
     try {
         const query = userIdFilter ? { idUsuario: userIdFilter } : {};
         const categorias = await CategoriaZonaMuscular.find(query).populate("nombreCategoriaZona");

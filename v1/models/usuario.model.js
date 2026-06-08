@@ -10,11 +10,7 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        unique: true,
-        sparse: true
-    },
+
     rol: {
         type: String,
         enum: ['admin', 'user'],
@@ -26,18 +22,18 @@ const usuarioSchema = new mongoose.Schema({
         enum: ['plus', 'premium'],
         default: 'plus'
     },
-    edad:{
+    edad: {
         type: Number,
     },
-    altura:{
+    altura: {
         type: Number,
     },
-    peso:{
+    peso: {
         type: Number,
     },
-    puntosAcumulados:{
-        type: Number,
-        default: 0
+    fotoPerfil: {
+        type: String,
+        default: ""
     },
 
 });

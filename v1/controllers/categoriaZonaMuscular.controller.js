@@ -13,11 +13,9 @@ export const crearCategoriaZonaMusculo = async (req, res) => {
 }
 
 export const obtenerCategoriaZonaMusculo = async (req, res) => {
-    const userId = req.user?.id;
-    const userRol = req.user?.rol;
-    const userIdFilter = userRol === 'admin' ? null : userId;
     
-    const categoriasObtenidas = await obtenerCategoriaZonaMusculoService(userIdFilter);
+    
+    const categoriasObtenidas = await obtenerCategoriaZonaMusculoService();
     res.json({ message: "Categorías de zona muscular obtenidas", categorias: categoriasObtenidas });
 }
 
