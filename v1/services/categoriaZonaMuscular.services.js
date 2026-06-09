@@ -17,16 +17,15 @@ export const crearCategoriaZonaMusculoService = async (categoria, idUsuario) => 
     }
 }
 
-export const obtenerCategoriaZonaMusculoService = async () => {
-    try {
-        const query = userIdFilter ? { idUsuario: userIdFilter } : {};
-        const categorias = await CategoriaZonaMuscular.find(query).populate("nombreCategoriaZona");
-        return categorias;
-    } catch (error) {
-        throw new Error("Error al obtener las categorías de zona muscular");
-    }
-
-}
+export const obtenerCategoriaZonaMusculoService = async (userIdFilter = null) => {
+  try {
+    const query = userIdFilter ? { idUsuario: userIdFilter } : {};
+    const categorias = await CategoriaZonaMuscular.find(query);
+    return categorias;
+  } catch (error) {
+    throw new Error("Error al obtener las categorías de zona muscular");
+  }
+};
 
 export const obtenerCategoriaZonaMusculoServicePorIdService = async (id, userIdFilter) => {
     if (!isValidObjectId(id)) {
