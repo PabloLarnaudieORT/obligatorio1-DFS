@@ -1,9 +1,6 @@
 import CategoriaZonaMuscular from "../models/categoriaZonaMuscular.model.js";
 import { isValidObjectId } from "mongoose";
 
-<<<<<<< Updated upstream
-export const crearCategoriaZonaMusculoService = async (categoria, idUsuario) => {
-=======
 export const crearCategoriaZonaMusculoService = async (
   categoria,
   idUsuario,
@@ -24,7 +21,6 @@ export const crearCategoriaZonaMusculoService = async (
 };
 
 export const obtenerCategoriaZonaMusculoService = async () => {
->>>>>>> Stashed changes
     try {
         const nuevaCategoria = new CategoriaZonaMuscular({
             ...categoria,
