@@ -1,7 +1,30 @@
 import CategoriaZonaMuscular from "../models/categoriaZonaMuscular.model.js";
 import { isValidObjectId } from "mongoose";
 
+<<<<<<< Updated upstream
 export const crearCategoriaZonaMusculoService = async (categoria, idUsuario) => {
+=======
+export const crearCategoriaZonaMusculoService = async (
+  categoria,
+  idUsuario,
+) => {
+  try {
+    const nuevaCategoria = new CategoriaZonaMuscular({
+      ...categoria,
+      idUsuario,
+    });
+    await nuevaCategoria.save();
+    return nuevaCategoria;
+  } catch (error) {
+    const err = new Error("Error al crear la categoría de zona muscular");
+    err.status = error.name === "ValidationError" ? 400 : 500;
+    err.details = error.errors || error.message;
+    throw err;
+  }
+};
+
+export const obtenerCategoriaZonaMusculoService = async () => {
+>>>>>>> Stashed changes
     try {
         const nuevaCategoria = new CategoriaZonaMuscular({
             ...categoria,
