@@ -1,0 +1,85 @@
+$kind: http-request
+name: /categoriaMusculo
+url: "{{productionURL}}/v1/categoriasMusculos"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "nombre": "CategoriaTest{{$randomInt}}"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |
+      // Save the created ID
+      const jsonData = pm.response.json();
+      const id = (jsonData._doc && jsonData._doc._id) || jsonData._id || jsonData.id;
+      pm.collectionVariables.set("idCategoriaMusculo", id);
+
+      // Status 200 or 201 (API returns 200)
+      pm.test("Status code is 200 or 201", function () {
+          pm.expect([200, 201]).to.include(pm.response.code);
+      });
+
+      pm.test("Response time is less than 5000ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(5000);
+      });
+
+      pm.test("Response has _doc with required fields", function () {
+          const j = pm.response.json();
+          pm.expect(j).to.have.property("_doc");
+          pm.expect(j._doc).to.have.property("_id");
+          pm.expect(j._doc).to.have.property("nombre");
+      });
+
+      pm.test("Fields have correct types", function () {
+          const j = pm.response.json();
+          pm.expect(j._doc._id).to.be.a("string");
+          pm.expect(j._doc.nombre).to.be.a("string");
+      });
+
+      // SAD PATH: missing required field → 400/500
+      pm.test("Missing required field returns 400 or 500", function (done) {
+          const baseURL = pm.environment.get("baseURL");
+          const token = pm.collectionVariables.get("token");
+          pm.sendRequest({
+              url: baseURL + "/v1/categoriasMusculos",
+              method: "POST",
+              header: {
+                  "Authorization": "Bearer " + token,
+                  "Content-Type": "application/json"
+              },
+              body: {
+                  mode: "raw",
+                  raw: JSON.stringify({})
+              }
+          }, function (err, res) {
+              if (err) { pm.expect.fail("Request error: " + err.message); done(); return; }
+              pm.expect([400, 500]).to.include(res.code);
+              done();
+          });
+      });
+
+      // SAD PATH: unauthenticated → 401
+      pm.test("Unauthenticated request returns 401", function (done) {
+          const baseURL = pm.environment.get("baseURL");
+          pm.sendRequest({
+              url: baseURL + "/v1/categoriasMusculos",
+              method: "POST",
+              header: { "Content-Type": "application/json" },
+              body: {
+                  mode: "raw",
+                  raw: JSON.stringify({ nombre: "TestUnauth" })
+              }
+          }, function (err, res) {
+              if (err) { pm.expect.fail("Request error: " + err.message); done(); return; }
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 1000

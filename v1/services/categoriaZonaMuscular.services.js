@@ -19,6 +19,7 @@ export const crearCategoriaZonaMusculoService = async (
     throw err;
   }
 };
+<<<<<<< HEAD
 
 export const obtenerCategoriaZonaMusculoService = async () => {
     try {
@@ -35,91 +36,115 @@ export const obtenerCategoriaZonaMusculoService = async () => {
         throw err;
     }
 }
+=======
+>>>>>>> b402f8f2b130e4a7a7212d8c03ba3e31e2c67dbe
 
-export const obtenerCategoriaZonaMusculoService = async (userIdFilter) => {
+export const obtenerCategoriaZonaMusculoService = async (
+  userIdFilter = null,
+) => {
+  try {
+    const query = userIdFilter ? { idUsuario: userIdFilter } : {};
+    const categorias = await CategoriaZonaMuscular.find(query);
+    return categorias;
+  } catch (error) {
+    throw new Error("Error al obtener las categorías de zona muscular");
+  }
+};
+/*
+export const obtenerCategoriaZonaMusculoService = async () => {
     try {
-        const query = userIdFilter ? { idUsuario: userIdFilter } : {};
-        const categorias = await CategoriaZonaMuscular.find(query);
+        const categorias = await CategoriaZonaMuscular.find();
         return categorias;
     } catch (error) {
         throw new Error("Error al obtener las categorías de zona muscular");
     }
 
 }
+*/
 
-export const obtenerCategoriaZonaMusculoServicePorIdService = async (id, userIdFilter) => {
-    if (!isValidObjectId(id)) {
-        const errorId = new Error("Id no válido");
-        errorId.status = 400;
-        errorId.details = { id };
-        throw errorId;
-    }
+export const obtenerCategoriaZonaMusculoServicePorIdService = async (
+  id,
+  userIdFilter,
+) => {
+  if (!isValidObjectId(id)) {
+    const errorId = new Error("Id no válido");
+    errorId.status = 400;
+    errorId.details = { id };
+    throw errorId;
+  }
 
-    const query = { _id: id };
-    if (userIdFilter) {
-        query.idUsuario = userIdFilter;
-    }
+  const query = { _id: id };
+  if (userIdFilter) {
+    query.idUsuario = userIdFilter;
+  }
 
-    const categoria = await CategoriaZonaMuscular.findOne(query);
+  const categoria = await CategoriaZonaMuscular.findOne(query);
 
-    if (!categoria) {
-        const errorId = new Error("Categoría de zona muscular no encontrada");
-        errorId.status = 404;
-        errorId.details = { id };
-        throw errorId;
-    }
-    return categoria;
-}
+  if (!categoria) {
+    const errorId = new Error("Categoría de zona muscular no encontrada");
+    errorId.status = 404;
+    errorId.details = { id };
+    throw errorId;
+  }
+  return categoria;
+};
 
-export const actualizarCategoriaZonaMusculoService = async (id, data, userIdFilter) => {
-    if (!isValidObjectId(id)) {
-        const errorId = new Error("Id no válido");
-        errorId.status = 400;
-        errorId.details = { id };
-        throw errorId;
-    }
+export const actualizarCategoriaZonaMusculoService = async (
+  id,
+  data,
+  userIdFilter,
+) => {
+  if (!isValidObjectId(id)) {
+    const errorId = new Error("Id no válido");
+    errorId.status = 400;
+    errorId.details = { id };
+    throw errorId;
+  }
 
-    const query = { _id: id };
-    if (userIdFilter) {
-        query.idUsuario = userIdFilter;
-    }
+  const query = { _id: id };
+  if (userIdFilter) {
+    query.idUsuario = userIdFilter;
+  }
 
-    const categoria = await CategoriaZonaMuscular.findOne(query);
+  const categoria = await CategoriaZonaMuscular.findOne(query);
 
-    if (!categoria) {
-        const errorId = new Error("Categoría de zona muscular no encontrada");
-        errorId.status = 404;
-        errorId.details = { id };
-        throw errorId;
-    }
+  if (!categoria) {
+    const errorId = new Error("Categoría de zona muscular no encontrada");
+    errorId.status = 404;
+    errorId.details = { id };
+    throw errorId;
+  }
 
-    const categoriaActualizada = await CategoriaZonaMuscular.findByIdAndUpdate(id, data, { returnDocument: "after" });
-    return categoriaActualizada;
-}
+  const categoriaActualizada = await CategoriaZonaMuscular.findByIdAndUpdate(
+    id,
+    data,
+    { returnDocument: "after" },
+  );
+  return categoriaActualizada;
+};
 
 export const eliminarCategoriaZonaMusculoService = async (id, userIdFilter) => {
+  if (!isValidObjectId(id)) {
+    const errorId = new Error("Id no válido");
+    errorId.status = 400;
+    errorId.details = { id };
+    throw errorId;
+  }
 
-    if (!isValidObjectId(id)) {
-        const errorId = new Error("Id no válido");
-        errorId.status = 400;
-        errorId.details = { id };
-        throw errorId;
-    }
+  const query = { _id: id };
+  if (userIdFilter) {
+    query.idUsuario = userIdFilter;
+  }
 
-    const query = { _id: id };
-    if (userIdFilter) {
-        query.idUsuario = userIdFilter;
-    }
+  const categoria = await CategoriaZonaMuscular.findOne(query);
 
-    const categoria = await CategoriaZonaMuscular.findOne(query);
+  if (!categoria) {
+    const errorId = new Error("Categoría de zona muscular no encontrada");
+    errorId.status = 404;
+    errorId.details = { id };
+    throw errorId;
+  }
 
-    if (!categoria) {
-        const errorId = new Error("Categoría de zona muscular no encontrada");
-        errorId.status = 404;
-        errorId.details = { id };
-        throw errorId;
-    }
-
-    const categoriaEliminada = await CategoriaZonaMuscular.findByIdAndDelete(id);
-    return categoriaEliminada;
-}
+  const categoriaEliminada = await CategoriaZonaMuscular.findByIdAndDelete(id);
+  return categoriaEliminada;
+};

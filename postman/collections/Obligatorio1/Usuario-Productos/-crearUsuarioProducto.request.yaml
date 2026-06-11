@@ -1,0 +1,36 @@
+$kind: http-request
+name: /crearUsuarioProducto
+url: "{{productionURL}}/v1/usuario-productos"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"idUsuario\": \"{{idUsuario}}\",\r
+
+    \    \"idProducto\": \"{{idProducto}}\"\r
+
+    }\r\n"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |
+      const jsonData = pm.response.json();
+      const id = (jsonData._id || (jsonData._doc && jsonData._doc._id) || jsonData.id);
+      if (id) pm.collectionVariables.set("idUsuarioProductos", id);
+    language: text/javascript
+  - type: beforeRequest
+    code: |-
+      const today = new Date().toISOString().split("T")[0];
+      pm.environment.set("hoy", today);
+
+      // Ensure idProducto is set to a real value
+      const idProducto = pm.collectionVariables.get("idProducto");
+      if (!idProducto || idProducto === "null" || idProducto === "") {
+          pm.collectionVariables.set("idProducto", "69f017dc27d8ad77389daef2");
+      }
+    language: text/javascript
+order: 1000

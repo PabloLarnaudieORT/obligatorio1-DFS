@@ -1,0 +1,5 @@
+$kind: http-request
+name: obtener cuentas usuario
+url: "{{baseURL}}/v1/usuarios/me/cuentas"
+method: GET
+order: 5000

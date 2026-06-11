@@ -1,0 +1,19 @@
+$kind: http-request
+name: /uploads
+url: "{{productionURL}}v1/uploads"
+method: POST
+queryParams:
+  - key: ""
+    value: ""
+    disabled: true
+body:
+  type: formdata
+  content:
+    - type: file
+      key: imagen
+      src:
+        - postman-cloud:///1f149a17-f11e-4ec0-8aa5-f7d187144055
+      disabled: false
+auth:
+  type: noauth
+order: 15000

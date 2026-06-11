@@ -1,0 +1,20 @@
+$kind: http-request
+name: /actualizarPlanUsuarioConAdmin
+url: "{{productionURL}}/v1/usuarios/{{idUsuario2}}/plan"
+method: PATCH
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 403", function () {
+          pm.response.to.have.status(403);
+      });
+
+      pm.test("Admin no puede actualizar plan por ruta user", function () {
+          pm.expect(pm.response.text()).to.include("No tienes permisos para esta acción");
+      });
+    language: text/javascript
+order: 6000

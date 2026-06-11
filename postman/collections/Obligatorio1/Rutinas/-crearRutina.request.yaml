@@ -1,0 +1,79 @@
+$kind: http-request
+name: /crearRutina
+url: "{{productionURL}}/v1/rutinas"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"idUsuarioCreador\": \"{{idUsuario1}}\",\r
+
+    \  \"categoriaZonaMuscular\": \"{{idCategoriaZona}}\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const token = pm.collectionVariables.get("token1");
+      const idUsuario = pm.collectionVariables.get("idUsuario1");
+
+      const jsonData = pm.response.json();
+      const id = (jsonData._id || (jsonData._doc && jsonData._doc._id) || jsonData.id);
+      if (id) pm.collectionVariables.set("idRutina", id);
+
+      // ── Happy ─────────────────────────
+      pm.test("Status code es 200 o 201", function () {
+          pm.expect([200, 201]).to.include(pm.response.code);
+      });
+
+      pm.test("Response es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      if (pm.response.code === 200 || pm.response.code === 201) {
+
+          const j = pm.response.json();
+          const doc = j._doc || j;
+
+          pm.test("Campos correctos", function () {
+              pm.expect(doc).to.have.property("_id");
+              pm.expect(doc).to.have.property("idUsuarioCreador");
+          });
+
+          pm.collectionVariables.set("idRutina", doc._id);
+      }
+
+      // ── SAD ─────────────────────────
+
+      // body vacío
+      pm.test("SAD: body vacío → 400", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/rutinas",
+              method: "POST",
+              header: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + token
+              },
+              body: { mode: "raw", raw: "{}" }
+          }, (err, res) => {
+              pm.expect([400, 500]).to.include(res.code);
+              done();
+          });
+      });
+
+      // sin token
+      pm.test("SAD: sin auth → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/rutinas",
+              method: "POST"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 1000

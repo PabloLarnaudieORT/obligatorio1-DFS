@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{baseURL}}/v1/gastos/"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 3000

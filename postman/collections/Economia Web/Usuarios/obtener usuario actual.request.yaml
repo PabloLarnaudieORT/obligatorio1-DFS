@@ -1,0 +1,9 @@
+$kind: http-request
+name: obtener usuario actual
+url: "{{baseURL}}/v1/usuarios/me"
+method: GET
+auth:
+  credentials:
+    token: "{{token}}"
+  type: bearer
+order: 2000

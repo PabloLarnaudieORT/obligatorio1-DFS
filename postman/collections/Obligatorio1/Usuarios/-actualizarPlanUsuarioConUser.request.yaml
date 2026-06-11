@@ -1,0 +1,29 @@
+$kind: http-request
+name: /actualizarPlanUsuarioConUser
+url: "{{productionURL}}/v1/usuarios/{{idUsuario1}}/plan"
+method: PATCH
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Usuario actualiza su plan a premium", function () {
+          const json = pm.response.json();
+
+          pm.expect(json).to.have.property("message", "Plan actualizado exitosamente");
+          pm.expect(json).to.have.property("usuario");
+          pm.expect(json.usuario).to.have.property("_id", pm.collectionVariables.get("idUsuario1") || pm.environment.get("idUsuario1"));
+          pm.expect(json.usuario).to.have.property("plan", "premium");
+      });
+    language: text/javascript
+order: 5000

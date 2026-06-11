@@ -34,7 +34,7 @@ export const registrarUsuarioService = async (data) => {
 
 
 export const loginUsuarioService = async (username, password) => {
-    const usuario = await Usuario.findOne({ username: new RegExp(`^${username}$`, 'i') });
+    const usuario = await Usuario.findOne({ username });
     if (!usuario) return { message: "Credenciales inválidas" };
 
     const isMatch = bcrypt.compareSync(password, usuario.password);
@@ -43,5 +43,8 @@ export const loginUsuarioService = async (username, password) => {
     const payload = { id: usuario._id, rol: usuario.rol };
     
     const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1d" });
-    return { token };
+    return { token,
+        id: usuario._id,
+  rol: usuario.rol
+     };
 }

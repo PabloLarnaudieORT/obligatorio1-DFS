@@ -22,11 +22,11 @@ export const createRutinaService = async (rutina, usuarioId) => {
             }
         }
 
-        const nuevaRutina = new Rutina(rutina, usuarioId);
+        const nuevaRutina = new Rutina({ ...rutina, idUsuarioCreador: usuarioId });
         await nuevaRutina.save();
         return nuevaRutina;
     } catch (error) {
-        const err = new Error("Error al crear la rutina");
+        throw error;
         err.status = error.name === "ValidationError" ? 400 : 500;
         err.details = error.errors || error.message;
         throw err;
@@ -68,10 +68,18 @@ export const obtenerRutinasCompletasService = async (page, limit, userId = null)
     };
 };
 
-export const obtenerRutinasPorZonaService = async (zonaId) => {
+export const obtenerRutinasPorZonaService = async (zonaId, userId = null) => {
     try {
 
-        const rutinas = await Rutina.find({ categoriaZonaMuscular: zonaId })
+        let query = {
+            categoriaZonaMuscular: zonaId
+        };
+
+        if (userId) {
+            query.idUsuarioCreador = userId;
+        }
+
+        const rutinas = await Rutina.find(query)
             .populate("idUsuarioCreador", "username plan")
             .populate("categoriaZonaMuscular", "nombreCategoriaZona");
 

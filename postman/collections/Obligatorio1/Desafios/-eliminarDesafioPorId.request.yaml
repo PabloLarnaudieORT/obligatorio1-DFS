@@ -1,0 +1,41 @@
+$kind: http-request
+name: /eliminarDesafioPorId
+url: "{{productionURL}}/v1/desafios/{{idDesafio}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      // verificar eliminación
+      pm.test("SAD: ya no existe → 404", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/desafios/" + pm.collectionVariables.get("idDesafio"),
+              method: "GET",
+              header: {
+                  Authorization: "Bearer " + pm.collectionVariables.get("token1")
+              }
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(404);
+              done();
+          });
+      });
+
+      // sin auth
+      pm.test("SAD: sin token → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/desafios/" + pm.collectionVariables.get("idDesafio"),
+              method: "DELETE"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 5000

@@ -1,0 +1,34 @@
+$kind: http-request
+name: /obtenerCategoriasZonaPorId
+url: "{{productionURL}}/v1/categoriasZonaMuscular/{{idCategoriaZona}}"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("La respuesta es JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      pm.test("Obtiene categoría de zona muscular por id", function () {
+          const json = pm.response.json();
+          const idCategoriaZona = pm.collectionVariables.get("idCategoriaZona");
+
+          pm.expect(json).to.have.property("message");
+          pm.expect(json.message).to.include("Categoría de zona muscular");
+          pm.expect(json.message).to.include("obtenida con exito");
+
+          pm.expect(json).to.have.property("categoria");
+          pm.expect(json.categoria).to.have.property("_id", idCategoriaZona);
+          pm.expect(json.categoria).to.have.property("nombreCategoriaZona");
+          pm.expect(json.categoria).to.have.property("idUsuario");
+      });
+    language: text/javascript
+order: 3000

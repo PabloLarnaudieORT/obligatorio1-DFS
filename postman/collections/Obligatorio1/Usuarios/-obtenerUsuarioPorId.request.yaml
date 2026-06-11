@@ -1,0 +1,53 @@
+$kind: http-request
+name: /obtenerUsuarioPorId
+url: "{{productionURL}}/v1/usuarios/{{idUsuario2}}"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token2}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code es 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta es JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Admin obtiene usuario por id\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \    const idEsperado = pm.collectionVariables.get(\"idUsuario2\") || pm.environment.get(\"idUsuario2\");\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"message\");\r
+
+      \    pm.expect(json.message).to.include(\"Usuario\");\r
+
+      \    pm.expect(json.message).to.include(\"obtenido con exito\");\r
+
+      \r
+
+      \    pm.expect(json).to.have.property(\"usuario\");\r
+
+      \    pm.expect(json.usuario).to.have.property(\"_id\", idEsperado);\r
+
+      \    pm.expect(json.usuario).to.have.property(\"username\");\r
+
+      \    pm.expect(json.usuario).to.not.have.property(\"password\");\r
+
+      });"
+    language: text/javascript
+order: 3000

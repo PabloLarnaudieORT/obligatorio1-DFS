@@ -1,0 +1,43 @@
+$kind: http-request
+name: /actualizarRutina
+url: "{{productionURL}}/v1/rutinas/{{idRutina}}"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"categoriaZonaMuscular\": \"{{idCategoriaZona}}\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      if (pm.response.code === 200) {
+          const j = pm.response.json();
+          const doc = j._doc || j;
+
+          pm.test("Se actualizó", function () {
+              pm.expect(doc).to.have.property("_id");
+          });
+      }
+
+      // SAD sin token
+      pm.test("SAD: sin auth → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/rutinas/" + pm.collectionVariables.get("idRutina"),
+              method: "PATCH"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 4000

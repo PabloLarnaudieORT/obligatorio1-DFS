@@ -4,6 +4,11 @@ import authorize from "../middlewares/rol.middleware.js";
 import {
     crearEjercicioSchema
 } from "../validators/ejercicios.validators.js";
+
+import {
+    crearDesafiosSchema,
+    editarDesafiosSchema
+} from "../validators/desafios.validators.js";
 import {
     crearDesafio,
     obtenerDesafios,
@@ -15,10 +20,10 @@ import {
 const router = express.Router({ mergeParams: true });
 
 //Peticiones a /v1/desafios
-router.post("/", authorize(["admin"]), crearDesafio)
+router.post("/", authorize(["admin"]), validateBody(crearDesafiosSchema), crearDesafio)
 router.get("/", obtenerDesafios)
 router.get("/:id", obtenerDesafioPorId)
-router.patch("/:id", authorize(["admin"]), actualizarDesafio)
+router.patch("/:id", authorize(["admin"]), validateBody(editarDesafiosSchema), actualizarDesafio)
 router.delete("/:id", authorize(["admin"]), eliminarDesafio)
 
 export default router;

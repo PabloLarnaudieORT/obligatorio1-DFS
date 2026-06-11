@@ -1,0 +1,48 @@
+$kind: http-request
+name: /eliminarRutina
+url: "{{productionURL}}/v1/rutinas/{{idRutina}}"
+method: DELETE
+body:
+  type: json
+  content: "{\r
+
+    \    \"listaEjercicios\" : [\"69e149b13c25f14f26c639ee\", \"69e158218f72e5dc70009d6c\", \"69e15e8adc406aa424b8ddde\"]\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token1}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code es 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      // verificar eliminación
+      pm.test("SAD: ya no existe → 404", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/rutinas/" + pm.collectionVariables.get("idRutina"),
+              method: "GET",
+              header: {
+                  Authorization: "Bearer " + pm.collectionVariables.get("token1")
+              }
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(404);
+              done();
+          });
+      });
+
+      // sin token
+      pm.test("SAD: sin auth → 401", function (done) {
+          pm.sendRequest({
+              url: pm.environment.get("productionURL") + "/v1/rutinas/" + pm.collectionVariables.get("idRutina"),
+              method: "DELETE"
+          }, (err, res) => {
+              pm.expect(res.code).to.equal(401);
+              done();
+          });
+      });
+    language: text/javascript
+order: 5000

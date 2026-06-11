@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseURL}}/v1/categorias-grupo"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"nombre\": \"Unipersonal 3\",\r
+
+    \  \"categoriaGrupo\": \"{{idCategoria}}\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "\r
+
+      const jsonData = pm.response.json()\r
+
+      pm.collectionVariables.set(\"idCategoriaGrupo\", jsonData.data._id);\r\n"
+    language: text/javascript
+order: 2000

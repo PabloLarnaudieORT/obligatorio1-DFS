@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{baseURL}}/v1/categorias-grupo/{{idCategoriaGrupo}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 4000

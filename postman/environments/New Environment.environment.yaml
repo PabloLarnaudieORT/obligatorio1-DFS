@@ -1,0 +1,14 @@
+name: New Environment
+values:
+  - key: productionURL
+    value: ''
+  - key: token2
+    value: ''
+  - key: idUsuario2
+    value: ''
+  - key: token1
+    value: ''
+  - key: idUsuario1
+    value: ''
+  - key: hoy
+    value: ''
