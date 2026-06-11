@@ -29,6 +29,7 @@ router.use(authenticateToken);
 //rutas protegidas
 router.use("/ejercicios", ejercicioRouter);
 
+router.use("/categoriasZonaMuscular", authorize(["admin", "user"]), categoriaZonaMuscularRouter);
 router.use("/rutinas", authorize(["user"]), rutinasRouter);
 router.use("/categoriasMusculos", authorize(["user"]), categoriaMusculosRoutes);
 router.use("/usuario-desafios", authorize(["user"]), usuarioDesafiosRouter);
