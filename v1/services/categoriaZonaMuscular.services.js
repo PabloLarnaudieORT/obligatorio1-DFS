@@ -19,38 +19,7 @@ export const crearCategoriaZonaMusculoService = async (
     throw err;
   }
 };
-<<<<<<< HEAD
 
-export const obtenerCategoriaZonaMusculoService = async () => {
-    try {
-        const nuevaCategoria = new CategoriaZonaMuscular({
-            ...categoria,
-            idUsuario
-        });
-        await nuevaCategoria.save();
-        return nuevaCategoria;
-    } catch (error) {
-        const err = new Error("Error al crear la categoría de zona muscular");
-        err.status = error.name === "ValidationError" ? 400 : 500;
-        err.details = error.errors || error.message;
-        throw err;
-    }
-}
-=======
->>>>>>> b402f8f2b130e4a7a7212d8c03ba3e31e2c67dbe
-
-export const obtenerCategoriaZonaMusculoService = async (
-  userIdFilter = null,
-) => {
-  try {
-    const query = userIdFilter ? { idUsuario: userIdFilter } : {};
-    const categorias = await CategoriaZonaMuscular.find(query);
-    return categorias;
-  } catch (error) {
-    throw new Error("Error al obtener las categorías de zona muscular");
-  }
-};
-/*
 export const obtenerCategoriaZonaMusculoService = async () => {
     try {
         const categorias = await CategoriaZonaMuscular.find();
@@ -60,7 +29,6 @@ export const obtenerCategoriaZonaMusculoService = async () => {
     }
 
 }
-*/
 
 export const obtenerCategoriaZonaMusculoServicePorIdService = async (
   id,
